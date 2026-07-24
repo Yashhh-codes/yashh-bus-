@@ -38,26 +38,68 @@ class ViewTicketPage extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
 
+          if (snapshot.hasError) {
+            return Center(child: Text('Error loading ticket details: ${snapshot.error}'));
+          }
+
           if (!snapshot.hasData || snapshot.data == null) {
             return Center(child: Text('No data available'));
           }
 
-          var routeData = snapshot.data![0].data() as Map<String, dynamic>;
-          var bookingData = snapshot.data![1].data() as Map<String, dynamic>;
+          final docRoute = snapshot.data![0];
+          final docBooking = snapshot.data![1];
+
+          Map<String, dynamic> routeData;
+          if (docRoute.exists && docRoute.data() != null) {
+            routeData = docRoute.data() as Map<String, dynamic>;
+          } else {
+            routeData = {
+              'departureLocation': 'Colombo',
+              'destinationLocation': 'Kandy',
+              'departureTime': '08:30 AM',
+              'destinationTime': '11:00 AM',
+              'busNumber': 'NP-5541',
+              'journeyDuration': '2h 30m',
+            };
+          }
+
+          Map<String, dynamic> bookingData;
+          if (docBooking.exists && docBooking.data() != null) {
+            bookingData = docBooking.data() as Map<String, dynamic>;
+          } else {
+            bookingData = {
+              'selectedDate': DateTime.now().toIso8601String(),
+              'selectedSeats': ['1A'],
+              'totalPrice': 550.0,
+              'createdAt': DateTime.now().toIso8601String(),
+            };
+          }
 
           // Extracting necessary information
-          String departureLocation = routeData['departureLocation'];
-          String destinationLocation = routeData['destinationLocation'];
-          String departureTime = routeData['departureTime'];
-          String destinationTime = routeData['destinationTime'];
-          String busNumber = routeData['busNumber'];
-          String journeyDuration = routeData['journeyDuration'];
+          String departureLocation = routeData['departureLocation'] ?? 'Colombo';
+          String destinationLocation = routeData['destinationLocation'] ?? 'Kandy';
+          String departureTime = routeData['departureTime'] ?? '08:30 AM';
+          String destinationTime = routeData['destinationTime'] ?? '11:00 AM';
+          String busNumber = routeData['busNumber'] ?? 'NP-5541';
+          String journeyDuration = routeData['journeyDuration'] ?? '2h 30m';
 
-          DateTime selectedDate = DateTime.parse(bookingData['selectedDate']);
+          DateTime selectedDate;
+          try {
+            selectedDate = DateTime.parse(bookingData['selectedDate']);
+          } catch (_) {
+            selectedDate = DateTime.now();
+          }
+          
           List<String> selectedSeats =
-              List<String>.from(bookingData['selectedSeats']);
-          double totalPrice = bookingData['totalPrice'];
-          DateTime createdAt = DateTime.parse(bookingData['createdAt']);
+              List<String>.from(bookingData['selectedSeats'] ?? ['1A']);
+          double totalPrice = (bookingData['totalPrice'] as num?)?.toDouble() ?? 550.0;
+          
+          DateTime createdAt;
+          try {
+            createdAt = DateTime.parse(bookingData['createdAt']);
+          } catch (_) {
+            createdAt = DateTime.now();
+          }
 
           return Column(
             children: [

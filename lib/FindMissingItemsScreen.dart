@@ -202,6 +202,12 @@ class _FindMissingItemsScreenState extends State<FindMissingItemsScreen> {
                   return const Center(child: CircularProgressIndicator()); // Show loading indicator
                 }
 
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error loading items: ${snapshot.error}'),
+                  );
+                }
+
                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                   return const Center(
                     child: Text('No missing items found'),

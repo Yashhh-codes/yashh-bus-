@@ -15,6 +15,12 @@ class ScheduleRoutePage extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot>(
         stream: _firestore.collection('ScheduleRoute').snapshots(),
         builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Error loading schedules: ${snapshot.error}'),
+            );
+          }
+
           if (!snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(),

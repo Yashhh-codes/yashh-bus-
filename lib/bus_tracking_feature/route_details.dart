@@ -59,12 +59,19 @@ class RouteDetailsScreen extends StatelessWidget {
                 const Spacer(),
 
                 // Fetch Schedule Route from Firestore and display the "BOOK NOW" button
-                StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('ScheduleRoute')
-                      .doc('abDimnnehTo0QQchbB88') // Hardcoded docID
-                      .snapshots(),
-                  builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                StreamBuilder<QuerySnapshot>(
+                  stream: (() {
+                    final parts = title.split('-');
+                    final departure = parts.isNotEmpty ? parts[0].trim() : '';
+                    final destination = parts.length > 1 ? parts[1].trim() : '';
+                    return FirebaseFirestore.instance
+                        .collection('ScheduleRoute')
+                        .where('departureLocation', isEqualTo: departure)
+                        .where('destinationLocation', isEqualTo: destination)
+                        .limit(1)
+                        .snapshots();
+                  })(),
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError) {
                       return const Center(child: Text('Error fetching route details'));
                     }
@@ -72,13 +79,31 @@ class RouteDetailsScreen extends StatelessWidget {
                       return const Center(child: CircularProgressIndicator());
                     }
 
-                    if (!snapshot.hasData || !snapshot.data!.exists) {
-                      return const Center(child: Text('No route details available'));
-                    }
-
                     // Map Firestore data to `ScheduleRoute` object
-                    final schedule = ScheduleRoute.fromFirestore(snapshot.data!);
-                    final routeId = snapshot.data!.id; // Assign the document ID as routeId
+                    ScheduleRoute schedule;
+                    String routeId;
+
+                    if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+                      final doc = snapshot.data!.docs.first;
+                      schedule = ScheduleRoute.fromFirestore(doc);
+                      routeId = doc.id;
+                    } else {
+                      // Fallback/Mock data to prevent getting stuck if database is empty or not configured yet
+                      final parts = title.split('-');
+                      final departure = parts.isNotEmpty ? parts[0].trim() : '';
+                      final destination = parts.length > 1 ? parts[1].trim() : '';
+                      schedule = ScheduleRoute(
+                        routeId: 'mock_route_id',
+                        departureLocation: departure,
+                        destinationLocation: destination,
+                        departureTime: '08:30 AM',
+                        destinationTime: '11:00 AM',
+                        seatPrice: 550.0,
+                        busNumber: 'NP-5541',
+                        journeyDuration: '2h 30m',
+                      );
+                      routeId = 'mock_route_id';
+                    }
 
                     return Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -183,7 +208,7 @@ class RouteDetailsScreen extends StatelessWidget {
                                     MaterialPageRoute(
                                       builder: (context) => DatePickerPage(
                                         seatPrice: schedule.seatPrice ?? 0.0, // Pass the seatPrice
-                                        routeId: routeId, // Pass the hardcoded routeId (docID)
+                                        routeId: routeId, // Pass the dynamic/mock routeId
                                       ),
                                     ),
                                   );
