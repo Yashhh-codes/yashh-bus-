@@ -1,44 +1,50 @@
-# Walkthrough — Full-Bleed Hero Integration (Production Layout)
+# Walkthrough — Mobile Hero Optimization (375px–430px)
 
-We have successfully refactored the landing page hero section into a native, full-bleed page header that integrates seamlessly with the rest of the page layout, removing all card container boundaries.
-
----
-
-## What Was Refactored
-
-### 1. Full-Bleed Native Hero Section (`app/(public)/page.tsx`)
-- Removed the margins (`mx-4`), top offset (`mt-6`), rounded borders (`rounded-3xl`), shadows (`shadow-xl`), and boundaries from the outer `<section id="home">` wrapper.
-- Transformed the hero container into a full-width header block using `w-full relative overflow-hidden bg-slate-900 isolate`.
-- Embedded a custom high-resolution background image (`/luxury_tour_bus.png`) generated specifically for this layout, replacing placeholders with high-fidelity production travel banner photography.
-
-### 2. Spacing alignment & Typography Scaling
-- Solved side margins and gaps by aligning the Content Wrapper maximum width (`max-w-[1280px]`) and the Search Widget width block to fill the screen width.
-- Shifted the content panel to the left and increased size parameters:
-  - **Left Alignment**: Reduced left padding offsets (`md:pl-6 md:pr-12`) and expanded inner container width limits (`max-w-5xl`) to allow content to start closer to the left viewport edge.
-  - **Headline**: Scaled to `text-6xl md:text-[5.2rem] lg:text-[6.2rem] xl:text-[6.8rem]` with `tracking-tight` and `leading-[1.0]` adjustments.
-  - **Subtitle**: Scaled to `text-xl md:text-3xl max-w-3xl` with an expanded horizontal width limit (`max-w-3xl`) and `font-medium` weight to layout cleanly.
-  - **Feature Points**: Increased feature cards' grid gap to `gap-8`, feature icons to `w-14 h-14`, and title typography sizes to `text-xl` and `text-base`.
-  - **Call to Actions**: Scaled button dimensions to `px-14 py-9 text-lg rounded-2xl` for clean visual proportions.
-
-### 3. Floating Sticky Navbar Overlay
-- Removed layout flow gaps by applying a negative bottom margin (`-mb-[88px]`) to the navbar container.
-- This forces the navbar to float absolutely over the top of the full-bleed hero backdrop, transitioning naturally to sticky behavior upon scrolling.
-
-### 4. Layered Gradient Overlays
-- Replaced the heavy white overlay with a multi-layered background tint:
-  - **Layer 1 (Readability)**: Left-to-right emerald gradient fade to provide high contrast behind the dark-green hero typography text on the left.
-  - **Layer 2 (Ambient Light)**: Subtle green radial glow behind the headings to enhance textual depth.
-  - **Layer 3 (Top Vignette)**: Dark top-down vignette gradient (`rgba(0, 0, 0, 0.12)`) to make the white floating navbar icons stand out.
-  - The right side of the gradient remains clean (`rgba(234, 243, 239, 0.05)`), keeping the bus image crisp.
-
-### 5. Search Card Positioning (Golden Hour Background Extension)
-- Moved the search card widget *inside* the `<section id="home">` hero container block, immediately following the textual layout column.
-- Removed the negative margins (`-mt-20 md:-mt-24`) to allow the container elements to lay out in standard block flow.
-- Because it is nested inside the hero section, the golden hour mountain pass highway background image now extends all the way to the bottom border of the "Find Your Journey" search card widget!
-- The glassmorphism blur refracts the road details behind it perfectly, creating a highly premium transition.
+We have successfully optimized the landing page hero section, the floating search widget, and the floating navigation bar to provide a native iOS/Android travel app feel for mobile viewports between `375px` and `430px`, keeping the premium desktop styles completely unaffected.
 
 ---
 
-## Verification Results
+## Changes Implemented
 
-- Verified Next.js compilation via `npm run build` which succeeded cleanly with **0 TypeScript errors**.
+### 1. Navbar Mobile Optimization
+- Logo circle container: Resized to exactly `40px` (`w-10 h-10` layout box) on mobile, centering a `20px` (`h-5 w-5`) bus icon.
+- Mobile menu button: Resized to exactly `40px` (`w-10 h-10`) on mobile, with a centered trigger icon for easy tap target.
+- Navbar height is standard `64px` (`h-16`).
+
+### 2. Spacing & Typography Adjustments
+- Content wrapper: Reduced top padding on mobile to `pt-24` and bottom padding to `pb-4` to eliminate redundant empty space and fit one mobile screen page.
+- Headline: Set to `text-4xl md:text-[3.2rem] lg:text-[3.8rem] xl:text-[4.4rem]` font size to make it highly polished and readable on both desktop and mobile viewports.
+- Subtitle: Reduced to `text-sm md:text-lg lg:text-xl text-slate-655 max-w-[300px] md:max-w-2xl leading-6 md:leading-relaxed` on both desktop and mobile.
+
+### 3. Feature Cards Mobile Refinement
+- Layout: Kept in a single row row using `grid-cols-3` (no vertical wrapping).
+- Sizing constraints:
+  - Icon background: Reduced to `w-9 h-9 sm:w-11 sm:h-11` (decreased from `56px` to `36px` on mobile / `44px` on desktop).
+  - Text scales: Reduced title to `text-[13px] sm:text-base md:text-lg` and subtitle description to `text-[11px] sm:text-xs md:text-sm`.
+  - Content alignment: Set to a clean vertical center column flow (`flex-col gap-1.5`) on mobile.
+
+### 4. Side-by-Side Mobile CTA Buttons
+- Configured CTA buttons to sit side-by-side on mobile using `flex-row gap-3` (12px gap).
+- Styled with height `h-11` (44px) and equal widths (`flex-1`) on mobile, and a balanced size (`sm:px-10 sm:py-4`) on desktop.
+
+### 5. Search Widget Widget Optimization
+- Container spacing: Reduced outer padding to `p-5` (20px) and border radius to `rounded-2xl` on mobile.
+- Fast Search badge:
+  - Positioned inline with the title to prevent overlapping.
+  - Set badge rules: `whitespace-nowrap min-w-fit px-4 h-9` (36px) with a `6px` (`gap-1.5`) layout spacing.
+- Inputs styling:
+  - Adjusted inputs height to exactly `48px` (`h-12`) on mobile.
+  - Font size: `text-[15px]` for inputs and `text-[11px]` for labels.
+- Search submit button:
+  - Transformed into a full-width block (`w-full h-12`) at the bottom of the card on mobile, reading "Search Journeys".
+  - Retains its icon-only square style on desktop.
+- Bottom highlights:
+  - Set to a single horizontally scrollable row (`flex-nowrap overflow-x-auto`) with hidden scrollbars.
+  - Font size: `text-[11px]`. No wrapping.
+
+---
+
+## Verification Plan
+
+- Verified Next.js compilation via `npm run build` which compiled successfully with **0 errors**.
+- Committed and pushed to `main` branch.

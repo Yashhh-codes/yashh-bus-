@@ -202,8 +202,8 @@ export function SeatMap({
                       "w-8.5 h-8.5 rounded-lg flex flex-col items-center justify-center transition-all duration-150 relative cursor-pointer focus:outline-none",
                       item.isBooked && "bg-rose-50 border border-rose-100 text-rose-300 cursor-not-allowed",
                       item.isUnavailable && "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200",
-                      item.isSelected && "bg-[#EAF3EF] text-[#1F5E45] border border-[#a7d7ac] shadow-xs",
-                      !item.isBooked && !item.isUnavailable && !item.isSelected && !cannotSelect && "bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#1F5E45] hover:border-slate-300 active:scale-95",
+                      item.isSelected && "bg-[#EAF3EF] text-[#1A365D] border border-[#a7d7ac] shadow-xs",
+                      !item.isBooked && !item.isUnavailable && !item.isSelected && !cannotSelect && "bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#1A365D] hover:border-slate-300 active:scale-95",
                       !item.isBooked && !item.isUnavailable && !item.isSelected && cannotSelect && "bg-slate-50 border border-slate-100 text-slate-300 cursor-not-allowed"
                     )}
                     disabled={item.isBooked || item.isUnavailable}
@@ -211,13 +211,13 @@ export function SeatMap({
                     <Armchair
                       className={cn(
                         "h-3 w-3 mb-0.5",
-                        item.isSelected ? "text-[#1F5E45]" : item.isBooked ? "text-rose-200" : "text-slate-400"
+                        item.isSelected ? "text-[#1A365D]" : item.isBooked ? "text-rose-200" : "text-slate-400"
                       )}
                     />
                     <span
                       className={cn(
                         "text-[7px] font-extrabold tracking-tighter uppercase",
-                        item.isSelected ? "text-[#1F5E45]" : item.isBooked ? "text-rose-300" : "text-slate-500"
+                        item.isSelected ? "text-[#1A365D]" : item.isBooked ? "text-rose-300" : "text-slate-500"
                       )}
                     >
                       {item.label}
@@ -252,14 +252,14 @@ export function SeatMap({
           <div className="flex items-center justify-between text-[10px]">
             <span className="text-slate-400 font-bold uppercase">Selected ({selectedSeats.length})</span>
             {selectedSeats.length === maxSelectable && (
-              <span className="text-[#1F5E45] font-extrabold">All seats selected</span>
+              <span className="text-[#1A365D] font-extrabold">All seats selected</span>
             )}
           </div>
           <div className="flex flex-wrap gap-1.5">
             {selectedSeats.map((seatId) => (
               <div
                 key={seatId}
-                className="flex items-center space-x-1 bg-[#EAF3EF] border border-[#a7d7ac] px-2 py-0.5 rounded-lg text-[10px] font-extrabold text-[#1F5E45]"
+                className="flex items-center space-x-1 bg-[#EAF3EF] border border-[#a7d7ac] px-2 py-0.5 rounded-lg text-[10px] font-extrabold text-[#1A365D]"
               >
                 <span>Seat {seatId}</span>
                 <button

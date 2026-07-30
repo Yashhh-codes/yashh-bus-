@@ -138,7 +138,7 @@ export default function LandingPage() {
           
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <div className="p-1.5 bg-[#1F5E45] rounded-full text-white">
+            <div className="p-1.5 bg-[#1A365D] rounded-full text-white">
               <Bus className="h-4 w-4" />
             </div>
             <span className="text-sm font-bold tracking-tight text-slate-900">Travel Booking</span>
@@ -150,7 +150,7 @@ export default function LandingPage() {
               href="#" 
               onClick={() => setActiveSection('home')}
               className={activeSection === 'home'
-                ? "text-[#1F5E45] bg-[#EAF3EF] border border-[#d3ebd5]/30 px-4 py-1.5 rounded-full shadow-sm font-bold transition-all duration-300"
+                ? "text-[#1A365D] bg-[#F0F4F8] border border-[#D9E2EC]/30 px-4 py-1.5 rounded-full shadow-sm font-bold transition-all duration-300"
                 : "hover:text-slate-900 px-3.5 py-1.5 rounded-full hover:bg-slate-50 transition-all duration-205"}
             >
               Home
@@ -159,7 +159,7 @@ export default function LandingPage() {
               href="#routes" 
               onClick={() => setActiveSection('routes')}
               className={activeSection === 'routes'
-                ? "text-[#1F5E45] bg-[#EAF3EF] border border-[#d3ebd5]/30 px-4 py-1.5 rounded-full shadow-sm font-bold transition-all duration-300"
+                ? "text-[#1A365D] bg-[#F0F4F8] border border-[#D9E2EC]/30 px-4 py-1.5 rounded-full shadow-sm font-bold transition-all duration-300"
                 : "hover:text-slate-900 px-3.5 py-1.5 rounded-full hover:bg-slate-50 transition-all duration-205"}
             >
               Routes
@@ -168,7 +168,7 @@ export default function LandingPage() {
               href="#notices" 
               onClick={() => setActiveSection('notices')}
               className={activeSection === 'notices'
-                ? "text-[#1F5E45] bg-[#EAF3EF] border border-[#d3ebd5]/30 px-4 py-1.5 rounded-full shadow-sm font-bold transition-all duration-300"
+                ? "text-[#1A365D] bg-[#F0F4F8] border border-[#D9E2EC]/30 px-4 py-1.5 rounded-full shadow-sm font-bold transition-all duration-300"
                 : "hover:text-slate-900 px-3.5 py-1.5 rounded-full hover:bg-slate-50 transition-all duration-205"}
             >
               Notice Board
@@ -177,7 +177,7 @@ export default function LandingPage() {
               href="#features" 
               onClick={() => setActiveSection('features')}
               className={activeSection === 'features'
-                ? "text-[#1F5E45] bg-[#EAF3EF] border border-[#d3ebd5]/30 px-4 py-1.5 rounded-full shadow-sm font-bold transition-all duration-300"
+                ? "text-[#1A365D] bg-[#F0F4F8] border border-[#D9E2EC]/30 px-4 py-1.5 rounded-full shadow-sm font-bold transition-all duration-300"
                 : "hover:text-slate-900 px-3.5 py-1.5 rounded-full hover:bg-slate-50 transition-all duration-205"}
             >
               Features
@@ -188,12 +188,12 @@ export default function LandingPage() {
           <div className="flex items-center space-x-2.5">
             <div className="hidden md:flex items-center space-x-2">
               <Link href="/login">
-                <Button variant="ghost" className="text-slate-600 hover:text-[#1F5E45] text-xs font-semibold transition-all px-3 h-9 rounded-full cursor-pointer">
+                <Button variant="ghost" className="text-slate-600 hover:text-[#1A365D] text-xs font-semibold transition-all px-3 h-9 rounded-full cursor-pointer">
                   Sign In
                 </Button>
               </Link>
               <Link href="/register">
-                <Button className="bg-[#1F5E45] hover:bg-[#184935] text-white text-xs font-bold transition-all px-4.5 h-9 rounded-full cursor-pointer shadow-sm">
+                <Button className="bg-[#1A365D] hover:bg-[#142D52] text-white text-xs font-bold transition-all px-4.5 h-9 rounded-full cursor-pointer shadow-sm">
                   Get Started
                 </Button>
               </Link>
@@ -223,7 +223,7 @@ export default function LandingPage() {
                 onClick={() => { setIsMobileMenuOpen(false); setActiveSection('home'); }} 
                 className={`block px-4 py-2.5 text-sm rounded-xl transition-all ${
                   activeSection === 'home' 
-                    ? 'text-[#1F5E45] bg-[#EAF3EF] font-bold' 
+                    ? 'text-[#1A365D] bg-[#F0F4F8] font-bold' 
                     : 'text-slate-600 hover:bg-slate-55'
                 }`}
               >
@@ -234,7 +234,7 @@ export default function LandingPage() {
                 onClick={() => { setIsMobileMenuOpen(false); setActiveSection('routes'); }} 
                 className={`block px-4 py-2.5 text-sm rounded-xl transition-all ${
                   activeSection === 'routes' 
-                    ? 'text-[#1F5E45] bg-[#EAF3EF] font-bold' 
+                    ? 'text-[#1A365D] bg-[#F0F4F8] font-bold' 
                     : 'text-slate-600 hover:bg-slate-55'
                 }`}
               >
@@ -245,7 +245,7 @@ export default function LandingPage() {
                 onClick={() => { setIsMobileMenuOpen(false); setActiveSection('notices'); }} 
                 className={`block px-4 py-2.5 text-sm rounded-xl transition-all ${
                   activeSection === 'notices' 
-                    ? 'text-[#1F5E45] bg-[#EAF3EF] font-bold' 
+                    ? 'text-[#1A365D] bg-[#F0F4F8] font-bold' 
                     : 'text-slate-600 hover:bg-slate-55'
                 }`}
               >
@@ -256,7 +256,7 @@ export default function LandingPage() {
                 onClick={() => { setIsMobileMenuOpen(false); setActiveSection('features'); }} 
                 className={`block px-4 py-2.5 text-sm rounded-xl transition-all ${
                   activeSection === 'features' 
-                    ? 'text-[#1F5E45] bg-[#EAF3EF] font-bold' 
+                    ? 'text-[#1A365D] bg-[#F0F4F8] font-bold' 
                     : 'text-slate-600 hover:bg-slate-55'
                 }`}
               >
@@ -270,7 +270,7 @@ export default function LandingPage() {
                   </Button>
                 </Link>
                 <Link href="/register" className="w-full">
-                  <Button className="w-full h-11 bg-[#1F5E45] text-white font-bold hover:bg-[#184935] rounded-xl">
+                  <Button className="w-full h-11 bg-[#1A365D] text-white font-bold hover:bg-[#142D52] rounded-xl">
                     Get Started
                   </Button>
                 </Link>
@@ -297,15 +297,15 @@ export default function LandingPage() {
           {/* Left Column: Hero Content */}
           <div className="max-w-5xl space-y-6 md:space-y-8">
             {/* Badge */}
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50/90 backdrop-blur-xs border border-green-100 rounded-full">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-              <span className="text-[11px] font-bold text-green-800">Phase 1 Live Passenger Web App</span>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50/90 backdrop-blur-xs border border-blue-100 rounded-full">
+              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+              <span className="text-[11px] font-bold text-blue-800">Phase 1 Live Passenger Web App</span>
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl md:text-[3.2rem] lg:text-[3.8rem] xl:text-[4.4rem] font-serif-heading text-[#1B3B2B] leading-[1.1] tracking-tight max-w-[280px] md:max-w-none">
+            <h1 className="text-4xl md:text-[3.2rem] lg:text-[3.8rem] xl:text-[4.4rem] font-serif-heading text-[#0F1E36] leading-[1.1] tracking-tight max-w-[280px] md:max-w-none">
               Better Journeys.<br/>
-              <span className="text-[#2D5A42]">Every Single Time.</span>
+              <span className="text-[#2563EB]">Every Single Time.</span>
             </h1>
 
             {/* Subtitle */}
@@ -316,8 +316,8 @@ export default function LandingPage() {
             {/* Feature Points */}
             <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-6 pt-2 max-w-3xl">
               <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-1.5 sm:gap-3">
-                <div className="w-9 h-9 sm:w-11 sm:h-11 shrink-0 bg-white/80 backdrop-blur-xs rounded-xl flex items-center justify-center border border-green-100 shadow-2xs">
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#1B3B2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-9 h-9 sm:w-11 sm:h-11 shrink-0 bg-white/80 backdrop-blur-xs rounded-xl flex items-center justify-center border border-blue-100 shadow-2xs">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#0F1E36]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M19 14l-7 7m0 0l-7-7m7 7V3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
                   </svg>
                 </div>
@@ -356,7 +356,7 @@ export default function LandingPage() {
             <div className="flex flex-row gap-3 pt-2 sm:pt-4">
               <Button 
                 onClick={() => router.push('/register')}
-                className="bg-[#1B3B2B] hover:bg-[#254d39] text-white h-11 px-6 sm:h-auto sm:px-10 sm:py-4 text-xs sm:text-base rounded-lg sm:rounded-xl font-bold flex items-center justify-center gap-2 flex-1 sm:flex-initial hover:shadow-md transition-all group cursor-pointer border-0"
+                className="bg-[#0F1E36] hover:bg-[#1E3A8A] text-white h-11 px-6 sm:h-auto sm:px-10 sm:py-4 text-xs sm:text-base rounded-lg sm:rounded-xl font-bold flex items-center justify-center gap-2 flex-1 sm:flex-initial hover:shadow-md transition-all group cursor-pointer border-0"
               >
                 Book Your Seat
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -382,17 +382,17 @@ export default function LandingPage() {
         <div className="flex items-center justify-between gap-4 mb-6 md:mb-8">
           <div className="flex items-center gap-3 md:gap-4 min-w-0">
             <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-white rounded-xl md:rounded-2xl flex items-center justify-center shadow-sm">
-              <svg className="w-5 h-5 md:w-6 md:h-6 text-[#1B3B2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 md:w-6 md:h-6 text-[#0F1E36]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
               </svg>
             </div>
-            <h3 className="text-lg md:text-2xl font-bold text-[#1B3B2B] truncate">Find Your Journey</h3>
+            <h3 className="text-lg md:text-2xl font-bold text-[#0F1E36] truncate">Find Your Journey</h3>
           </div>
           <button 
             type="button"
             className="whitespace-nowrap min-w-fit px-4 h-9 bg-white/80 border border-gray-200 rounded-full text-xs font-bold flex items-center gap-1.5 hover:bg-white transition-colors cursor-pointer select-none shrink-0"
           >
-            <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
               <path d="M13 10V3L4 14h7v7l9-11h-7z"></path>
             </svg>
             Fast Search
@@ -405,13 +405,13 @@ export default function LandingPage() {
             <div className="md:col-span-4 space-y-2">
               <label className="text-[11px] md:text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">From</label>
               <div className="relative group">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
                   </svg>
                 </span>
                 <select 
-                  className="w-full pl-12 pr-10 h-12 md:h-14 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1B3B2B] text-slate-800 appearance-none cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
+                  className="w-full pl-12 pr-10 h-12 md:h-14 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1A365D] text-slate-800 appearance-none cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
                   {...register('from')}
                 >
                   <option value="" disabled>e.g. Swargate</option>
@@ -447,13 +447,13 @@ export default function LandingPage() {
             <div className="md:col-span-4 space-y-2">
               <label className="text-[11px] md:text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">To</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
                   </svg>
                 </span>
                 <select 
-                  className="w-full pl-12 pr-10 h-12 md:h-14 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1B3B2B] text-slate-800 appearance-none cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
+                  className="w-full pl-12 pr-10 h-12 md:h-14 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1A365D] text-slate-800 appearance-none cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
                   {...register('to')}
                 >
                   <option value="" disabled>e.g. Kothrud</option>
@@ -474,7 +474,7 @@ export default function LandingPage() {
             <div className="md:col-span-2 space-y-2">
               <label className="text-[11px] md:text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">Date</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
                   </svg>
@@ -482,7 +482,7 @@ export default function LandingPage() {
                 <input 
                   type="date"
                   min={new Date().toISOString().split('T')[0]}
-                  className="w-full pl-12 pr-4 h-12 md:h-[56px] bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1B3B2B] text-slate-800 cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
+                  className="w-full pl-12 pr-4 h-12 md:h-[56px] bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1A365D] text-slate-800 cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
                   {...register('date')}
                 />
               </div>
@@ -493,7 +493,7 @@ export default function LandingPage() {
             <div className="md:col-span-1 w-full">
               <Button 
                 type="submit"
-                className="w-full h-12 md:h-[56px] bg-[#1B3B2B] hover:bg-[#254d39] text-white rounded-2xl flex items-center justify-center gap-2 hover:shadow-lg active:scale-95 transition-all cursor-pointer border-0 text-sm font-bold"
+                className="w-full h-12 md:h-[56px] bg-[#0F1E36] hover:bg-[#1E3A8A] text-white rounded-2xl flex items-center justify-center gap-2 hover:shadow-lg active:scale-95 transition-all cursor-pointer border-0 text-sm font-bold"
               >
                 <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
@@ -506,17 +506,17 @@ export default function LandingPage() {
           {/* Bottom highlights info */}
           <div className="border-t border-slate-100 pt-4 flex flex-row flex-nowrap overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden items-center justify-center md:justify-start gap-4 md:gap-6 text-[11px] md:text-[10px] font-extrabold text-slate-400 uppercase tracking-wider whitespace-nowrap w-full">
             <div className="flex items-center shrink-0">
-              <span className="text-[#1B3B2B] mr-1.5">&bull;</span>
+              <span className="text-[#0F1E36] mr-1.5">&bull;</span>
               <span>Best Prices</span>
             </div>
             <div className="w-px h-3.5 bg-slate-200 shrink-0" />
             <div className="flex items-center shrink-0">
-              <span className="text-[#1B3B2B] mr-1.5">&bull;</span>
+              <span className="text-[#0F1E36] mr-1.5">&bull;</span>
               <span>Secure Booking</span>
             </div>
             <div className="w-px h-3.5 bg-slate-200 shrink-0" />
             <div className="flex items-center shrink-0">
-              <span className="text-[#1B3B2B] mr-1.5">&bull;</span>
+              <span className="text-[#0F1E36] mr-1.5">&bull;</span>
               <span>24/7 Support</span>
             </div>
           </div>
@@ -608,10 +608,10 @@ export default function LandingPage() {
                 className="bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm space-y-4 hover:shadow-md transition-all"
               >
                 <div className="flex justify-between items-start">
-                  <div className="px-2 py-0.5 bg-indigo-50 border border-indigo-100 rounded-md text-[10px] font-bold text-[#1F5E45] uppercase">
+                  <div className="px-2 py-0.5 bg-indigo-50 border border-indigo-100 rounded-md text-[10px] font-bold text-[#1A365D] uppercase">
                     {route.type}
                   </div>
-                  <span className="text-sm font-semibold text-[#1F5E45]">{route.price}</span>
+                  <span className="text-sm font-semibold text-[#1A365D]">{route.price}</span>
                 </div>
                 <div className="space-y-1">
                   <div className="font-bold text-slate-900 text-lg">{route.from} &rarr; {route.to}</div>
@@ -741,7 +741,7 @@ export default function LandingPage() {
       <footer className="bg-slate-950 text-slate-400 py-12 px-6 border-t border-slate-900">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center space-x-2">
-            <div className="p-2 bg-[#1F5E45] rounded-lg text-white">
+            <div className="p-2 bg-[#1A365D] rounded-lg text-white">
               <Bus className="h-5 w-5" />
             </div>
             <span className="text-lg font-bold tracking-tight text-white">Travel Booking</span>

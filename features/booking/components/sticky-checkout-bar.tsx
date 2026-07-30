@@ -79,7 +79,7 @@ export function StickyCheckoutBar({
             {selectedSeatsCount} Seat{selectedSeatsCount > 1 ? 's' : ''} Selected
             {onToggleSummary && <span className="text-indigo-600 text-[8px] font-bold underline font-sans ml-1 lg:hidden">Details</span>}
           </span>
-          <span className="text-base font-black text-[#1F5E45]">
+          <span className="text-base font-black text-[#1A365D]">
             ₹{totalPrice.toLocaleString('en-IN')}
           </span>
         </div>

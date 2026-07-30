@@ -166,7 +166,7 @@ export default function TrackingPage() {
             </div>
             <div>
               <span className="block text-[9px] uppercase tracking-wider text-slate-400">Progress</span>
-              <span className="text-sm font-extrabold text-green-600">{Math.floor(progress)}%</span>
+              <span className="text-sm font-extrabold text-blue-600">{Math.floor(progress)}%</span>
             </div>
           </div>
         </div>

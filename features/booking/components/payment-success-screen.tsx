@@ -34,7 +34,7 @@ export function PaymentSuccessScreen() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: 'spring', duration: 0.5, bounce: 0.3 }}
-            className="h-20 w-20 rounded-full bg-[#EAF3EF] flex items-center justify-center text-[#1F5E45]"
+            className="h-20 w-20 rounded-full bg-[#EAF3EF] flex items-center justify-center text-[#1A365D]"
           >
             <CheckCircle2 className="h-12 w-12 stroke-[2.5]" />
           </motion.div>
@@ -64,7 +64,7 @@ export function PaymentSuccessScreen() {
         <div className="border-t border-slate-100 pt-5 space-y-3.5 text-left max-w-xs mx-auto">
           {/* Step 1: Confirmed */}
           <div className="flex items-center space-x-3 text-xs font-bold">
-            <div className="h-5.5 w-5.5 rounded-full bg-[#EAF3EF] text-[#1F5E45] flex items-center justify-center">
+            <div className="h-5.5 w-5.5 rounded-full bg-[#EAF3EF] text-[#1A365D] flex items-center justify-center">
               <CheckCircle2 className="h-3.5 w-3.5 stroke-[2.5]" />
             </div>
             <span className="text-slate-800">Seat Reservation Secured</span>
@@ -74,11 +74,11 @@ export function PaymentSuccessScreen() {
           <div className="flex items-center space-x-3 text-xs font-bold">
             <div className="h-5.5 w-5.5 flex items-center justify-center">
               {stage >= 2 ? (
-                <div className="h-5.5 w-5.5 rounded-full bg-[#EAF3EF] text-[#1F5E45] flex items-center justify-center">
+                <div className="h-5.5 w-5.5 rounded-full bg-[#EAF3EF] text-[#1A365D] flex items-center justify-center">
                   <CheckCircle2 className="h-3.5 w-3.5 stroke-[2.5]" />
                 </div>
               ) : (
-                <Loader2 className="h-4.5 w-4.5 text-[#1F5E45] animate-spin" />
+                <Loader2 className="h-4.5 w-4.5 text-[#1A365D] animate-spin" />
               )}
             </div>
             <span className={stage >= 2 ? "text-slate-800" : "text-slate-400"}>
@@ -90,7 +90,7 @@ export function PaymentSuccessScreen() {
           <div className="flex items-center space-x-3 text-xs font-bold">
             <div className="h-5.5 w-5.5 flex items-center justify-center">
               {stage === 3 ? (
-                <Loader2 className="h-4.5 w-4.5 text-[#1F5E45] animate-spin" />
+                <Loader2 className="h-4.5 w-4.5 text-[#1A365D] animate-spin" />
               ) : (
                 <div className="h-2 w-2 rounded-full bg-slate-200" />
               )}

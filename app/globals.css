@@ -47,19 +47,19 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
-  /* Override all indigo variants to match the new Deep Forest Green palette */
-  --color-indigo-50: #EAF3EF;
-  --color-indigo-100: #d3ebd5;
-  --color-indigo-200: #a7d7ac;
-  --color-indigo-300: #7bc383;
-  --color-indigo-400: #4faf5a;
-  --color-indigo-500: #2b9138;
-  --color-indigo-600: #1F5E45;
-  --color-indigo-650: #194e39;
-  --color-indigo-700: #143d2d;
-  --color-indigo-800: #0f2e22;
-  --color-indigo-900: #0b2017;
-  --color-indigo-950: #06110c;
+  /* Override all indigo variants to match the new Premium Navy Blue palette */
+  --color-indigo-50: #F0F4F8;
+  --color-indigo-100: #D9E2EC;
+  --color-indigo-200: #BCCCDC;
+  --color-indigo-300: #9FB3C8;
+  --color-indigo-400: #829AB1;
+  --color-indigo-500: #486581;
+  --color-indigo-600: #1A365D;
+  --color-indigo-650: #142D52;
+  --color-indigo-700: #0F2347;
+  --color-indigo-800: #0A1938;
+  --color-indigo-900: #061026;
+  --color-indigo-950: #030814;
 }
 
 :root {
@@ -69,7 +69,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.42 0.08 152);
+  --primary: oklch(0.35 0.08 250);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -89,7 +89,7 @@
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.42 0.08 152);
+  --sidebar-primary: oklch(0.35 0.08 250);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
@@ -104,7 +104,7 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.55 0.08 152);
+  --primary: oklch(0.45 0.09 250);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
@@ -123,7 +123,7 @@
   --chart-5: oklch(0.269 0 0);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.55 0.08 152);
+  --sidebar-primary: oklch(0.45 0.09 250);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);

@@ -25,7 +25,7 @@ export default function HomePage() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div className="space-y-1">
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 md:text-4xl">
-            Welcome back, <span className="text-[#1F5E45]">{user?.displayName || 'Traveler'}</span>
+            Welcome back, <span className="text-[#1A365D]">{user?.displayName || 'Traveler'}</span>
           </h1>
           <p className="text-slate-500">Search schedules and book premium transit seats instantly.</p>
         </div>
@@ -51,7 +51,7 @@ export default function HomePage() {
               >
                 <div>
                   <div className="flex justify-between items-center mb-2">
-                    <span className="px-2 py-0.5 bg-indigo-50 border border-indigo-100 rounded-md text-[10px] font-bold text-[#1F5E45] uppercase">
+                    <span className="px-2 py-0.5 bg-indigo-50 border border-indigo-100 rounded-md text-[10px] font-bold text-[#1A365D] uppercase">
                       {route.type}
                     </span>
                     <span className="text-sm font-bold text-slate-800">{route.price}</span>

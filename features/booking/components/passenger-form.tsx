@@ -112,7 +112,7 @@ export function PassengerForm({
         {/* WhatsApp Updates Toggle */}
         <div className="flex items-center justify-between bg-slate-50/50 border border-slate-100 p-2.5 rounded-xl mt-1">
           <div className="flex items-center space-x-2.5">
-            <MessageSquare className="h-4 w-4 text-[#1F5E45]" />
+            <MessageSquare className="h-4 w-4 text-[#1A365D]" />
             <div>
               <span className="text-[11px] font-bold text-slate-700 block leading-tight">Send updates on WhatsApp</span>
               <span className="text-[9px] font-semibold text-slate-400">Fast alerts for delays and schedules</span>
@@ -123,7 +123,7 @@ export function PassengerForm({
             onClick={() => onWhatsAppUpdatesChange(!whatsAppUpdates)}
             className={cn(
               "w-8 h-4 rounded-full p-0.5 transition-colors cursor-pointer outline-none",
-              whatsAppUpdates ? "bg-[#1F5E45]" : "bg-slate-200"
+              whatsAppUpdates ? "bg-[#1A365D]" : "bg-slate-200"
             )}
           >
             <div
@@ -150,7 +150,7 @@ export function PassengerForm({
                 <User className="h-4 w-4 text-slate-400" />
                 Passenger {index + 1}
               </h3>
-              <span className="text-[10px] font-black text-[#1F5E45] bg-[#EAF3EF] px-2 py-0.5 rounded-lg uppercase tracking-wider">
+              <span className="text-[10px] font-black text-[#1A365D] bg-[#EAF3EF] px-2 py-0.5 rounded-lg uppercase tracking-wider">
                 Seat {seat}
               </span>
             </div>
@@ -227,7 +227,7 @@ export function PassengerForm({
           <div className="flex items-center space-x-2.5">
             <div className={cn(
               "h-4 w-4 rounded border flex items-center justify-center transition-all",
-              gstEnabled ? "border-[#1F5E45] bg-[#1F5E45] text-white" : "border-slate-300 bg-white"
+              gstEnabled ? "border-[#1A365D] bg-[#1A365D] text-white" : "border-slate-300 bg-white"
             )}>
               {gstEnabled && (
                 <div className="w-1.5 h-1.5 bg-white rounded-xs" />
@@ -288,13 +288,13 @@ export function PassengerForm({
                 className={cn(
                   "flex items-center space-x-2.5 p-2 rounded-xl border text-left cursor-pointer transition-colors focus:outline-none",
                   isChecked
-                    ? "border-[#a7d7ac] bg-[#EAF3EF]/30 text-[#1F5E45]"
+                    ? "border-[#a7d7ac] bg-[#EAF3EF]/30 text-[#1A365D]"
                     : "border-slate-200 bg-white hover:border-slate-350 text-slate-700"
                 )}
               >
                 <div className={cn(
                   "h-3.5 w-3.5 rounded border flex items-center justify-center shrink-0",
-                  isChecked ? "border-[#1F5E45] bg-[#1F5E45] text-white" : "border-slate-300 bg-white"
+                  isChecked ? "border-[#1A365D] bg-[#1A365D] text-white" : "border-slate-300 bg-white"
                 )}>
                   {isChecked && <div className="w-1 h-1 bg-white rounded-xs" />}
                 </div>

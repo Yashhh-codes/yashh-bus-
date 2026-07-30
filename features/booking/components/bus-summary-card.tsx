@@ -63,8 +63,8 @@ export function BusSummaryCard({
           <span className="text-[10px] font-semibold text-slate-400 block">{busType}</span>
         </div>
         <div className="flex flex-col items-end">
-          <div className="flex items-center space-x-0.5 text-[#1F5E45]">
-            <Star className="h-3 w-3 fill-[#1F5E45]" />
+          <div className="flex items-center space-x-0.5 text-[#1A365D]">
+            <Star className="h-3 w-3 fill-[#1A365D]" />
             <span className="text-xs font-black">{rating}</span>
           </div>
           <span className="text-[8px] text-slate-400 font-bold">({totalReviews} reviews)</span>
@@ -81,8 +81,8 @@ export function BusSummaryCard({
           className="object-cover transition-transform duration-500 hover:scale-102"
         />
         <div className="absolute top-1.5 right-1.5 bg-white/95 backdrop-blur-md px-1.5 py-0.5 rounded-full border border-slate-100 flex items-center space-x-0.5 shadow-xs">
-          <Wifi className="h-3 w-3 text-[#1F5E45]" />
-          <span className="text-[8px] font-black text-[#1F5E45] uppercase tracking-wider">WiFi</span>
+          <Wifi className="h-3 w-3 text-[#1A365D]" />
+          <span className="text-[8px] font-black text-[#1A365D] uppercase tracking-wider">WiFi</span>
         </div>
       </div>
 
@@ -105,7 +105,7 @@ export function BusSummaryCard({
             <div className="flex items-center gap-1 my-0.5">
               <div className="w-1 h-1 rounded-full bg-slate-350" />
               <div className="w-10 h-px bg-slate-200" />
-              <div className="w-1 h-1 rounded-full bg-[#1F5E45]" />
+              <div className="w-1 h-1 rounded-full bg-[#1A365D]" />
             </div>
           </div>
 
@@ -131,9 +131,9 @@ export function BusSummaryCard({
             <div className="space-y-1.5 text-[11px]">
               {selectedBoarding && (
                 <div className="flex items-start gap-2 bg-[#EAF3EF]/30 border border-[#a7d7ac]/10 p-1.5 rounded-lg">
-                  <MapPin className="h-3 w-3 text-[#1F5E45] mt-0.5 shrink-0" />
+                  <MapPin className="h-3 w-3 text-[#1A365D] mt-0.5 shrink-0" />
                   <div className="leading-tight">
-                    <span className="text-[8px] font-bold text-[#1F5E45] uppercase tracking-wider block">Pickup</span>
+                    <span className="text-[8px] font-bold text-[#1A365D] uppercase tracking-wider block">Pickup</span>
                     <span className="font-bold text-slate-800">{selectedBoarding.label}</span>
                     <span className="text-[9px] font-medium text-slate-500 block">{selectedBoarding.time}</span>
                   </div>
@@ -182,7 +182,7 @@ export function BusSummaryCard({
       <div className="space-y-2">
         <div className="flex justify-between items-center text-[10px]">
           <span className="text-slate-400 font-bold uppercase tracking-wider">Seats</span>
-          <span className="font-black text-[#1F5E45]">
+          <span className="font-black text-[#1A365D]">
             {selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None'}
           </span>
         </div>

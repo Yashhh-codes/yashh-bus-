@@ -42,7 +42,7 @@ export function FareBreakdown({ seatPrice, selectedSeatsCount }: FareBreakdownPr
       </div>
       <div className="border-t border-slate-100 my-1 pt-1.5 flex justify-between items-center text-xs">
         <span className="text-slate-800 font-black">Total Price</span>
-        <span className="text-[#1F5E45] font-black text-sm">
+        <span className="text-[#1A365D] font-black text-sm">
           ₹{total.toLocaleString('en-IN')}
         </span>
       </div>

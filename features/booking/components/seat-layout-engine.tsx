@@ -102,11 +102,11 @@ export function SeatLayoutEngine({
                   whileTap={!(item.isBooked || item.isUnavailable) ? { scale: 0.95 } : {}}
                   onClick={() => handleSeatClick(item)}
                   className={cn(
-                    "w-12 h-12 rounded-[14px] flex flex-col items-center justify-center transition-all duration-200 relative cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#1F5E45]/20",
+                    "w-12 h-12 rounded-[14px] flex flex-col items-center justify-center transition-all duration-200 relative cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#1A365D]/20",
                     item.isBooked && "bg-rose-50 border border-rose-100 text-rose-300 cursor-not-allowed",
                     item.isUnavailable && "bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-300",
-                    item.isSelected && "bg-[#EAF3EF] text-[#1F5E45] border border-[#a7d7ac] shadow-sm shadow-[#1F5E45]/5",
-                    !item.isBooked && !item.isUnavailable && !item.isSelected && !cannotSelect && "bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#1F5E45] hover:border-slate-300",
+                    item.isSelected && "bg-[#EAF3EF] text-[#1A365D] border border-[#a7d7ac] shadow-sm shadow-[#1A365D]/5",
+                    !item.isBooked && !item.isUnavailable && !item.isSelected && !cannotSelect && "bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#1A365D] hover:border-slate-300",
                     !item.isBooked && !item.isUnavailable && !item.isSelected && cannotSelect && "bg-slate-100 border border-slate-200/50 text-slate-400 cursor-not-allowed"
                   )}
                   disabled={item.isBooked || item.isUnavailable}
@@ -114,13 +114,13 @@ export function SeatLayoutEngine({
                   <Armchair 
                     className={cn(
                        "h-4 w-4 mb-0.5 transition-colors duration-200", 
-                       item.isSelected ? "text-[#1F5E45]" : item.isBooked ? "text-rose-200" : "text-slate-400"
+                       item.isSelected ? "text-[#1A365D]" : item.isBooked ? "text-rose-200" : "text-slate-400"
                     )} 
                   />
                   <span 
                     className={cn(
                        "text-[9px] font-extrabold tracking-tighter uppercase transition-colors duration-200", 
-                       item.isSelected ? "text-[#1F5E45]" : item.isBooked ? "text-rose-300" : "text-slate-500"
+                       item.isSelected ? "text-[#1A365D]" : item.isBooked ? "text-rose-300" : "text-slate-500"
                     )}
                   >
                     {item.label}
