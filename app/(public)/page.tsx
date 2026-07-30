@@ -296,11 +296,7 @@ export default function LandingPage() {
         <div className="relative z-10 max-w-[1280px] mx-auto px-6 md:pl-6 md:pr-12 pt-24 pb-4 md:pt-28 md:pb-8">
           {/* Left Column: Hero Content */}
           <div className="max-w-5xl space-y-6 md:space-y-8">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50/90 backdrop-blur-xs border border-blue-100 rounded-full">
-              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-              <span className="text-[11px] font-bold text-blue-800">Phase 1 Live Passenger Web App</span>
-            </div>
+
 
             {/* Headline */}
             <h1 className="text-4xl md:text-[3.2rem] lg:text-[3.8rem] xl:text-[4.4rem] font-serif-heading text-[#0F1E36] leading-[1.1] tracking-tight max-w-[280px] md:max-w-none">
