@@ -293,9 +293,9 @@ export default function LandingPage() {
         </div>
 
         {/* Content Wrapper */}
-        <div className="relative z-10 max-w-[1280px] mx-auto px-6 md:pl-6 md:pr-12 pt-32 pb-12">
+        <div className="relative z-10 max-w-[1280px] mx-auto px-6 md:pl-6 md:pr-12 pt-28 pb-8 md:pt-32 md:pb-12">
           {/* Left Column: Hero Content */}
-          <div className="max-w-5xl space-y-10">
+          <div className="max-w-5xl space-y-6 md:space-y-10">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-green-50/90 backdrop-blur-xs border border-green-100 rounded-full">
               <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
@@ -303,60 +303,60 @@ export default function LandingPage() {
             </div>
 
             {/* Headline */}
-            <h1 className="text-6xl md:text-[5.2rem] lg:text-[6.2rem] xl:text-[6.8rem] font-serif-heading text-[#1B3B2B] leading-[1.0] tracking-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-[5.2rem] lg:text-[6.2rem] xl:text-[6.8rem] font-serif-heading text-[#1B3B2B] leading-[1.05] md:leading-[1.0] tracking-tight">
               Better Journeys.<br/>
               <span className="text-[#2D5A42]">Every Single Time.</span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-xl md:text-3xl text-slate-655 max-w-3xl leading-relaxed font-medium">
+            <p className="text-base sm:text-lg md:text-2xl lg:text-3xl text-slate-655 max-w-3xl leading-relaxed font-medium">
               Discover reliable bus services, comfortable seats, live tracking and instant booking — all in one place.
             </p>
 
             {/* Feature Points */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-2 max-w-4xl">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 pt-2 max-w-4xl">
               <div className="flex items-start gap-4">
-                <div className="w-14 h-14 shrink-0 bg-white/80 backdrop-blur-xs rounded-2xl flex items-center justify-center border border-green-100 shadow-2xs">
-                  <svg className="w-7 h-7 text-[#1B3B2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 bg-white/80 backdrop-blur-xs rounded-xl sm:rounded-2xl flex items-center justify-center border border-green-100 shadow-2xs">
+                  <svg className="w-5 h-5 sm:w-7 sm:h-7 text-[#1B3B2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M19 14l-7 7m0 0l-7-7m7 7V3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
                   </svg>
                 </div>
                 <div>
-                  <p className="text-xl font-extrabold text-slate-800">Premium Seats</p>
-                  <p className="text-base text-slate-550 font-semibold mt-1">Comfort you deserve</p>
+                  <p className="text-base sm:text-xl font-extrabold text-slate-800">Premium Seats</p>
+                  <p className="text-xs sm:text-base text-slate-550 font-semibold mt-0.5 sm:mt-1">Comfort you deserve</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-14 h-14 shrink-0 bg-white/80 backdrop-blur-xs rounded-2xl flex items-center justify-center border border-orange-100 shadow-2xs">
-                  <svg className="w-7 h-7 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 bg-white/80 backdrop-blur-xs rounded-xl sm:rounded-2xl flex items-center justify-center border border-orange-100 shadow-2xs">
+                  <svg className="w-5 h-5 sm:w-7 sm:h-7 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
                   </svg>
                 </div>
                 <div>
-                  <p className="text-xl font-extrabold text-slate-800">Live Tracking</p>
-                  <p className="text-base text-slate-550 font-semibold mt-1">Track your bus live</p>
+                  <p className="text-base sm:text-xl font-extrabold text-slate-800">Live Tracking</p>
+                  <p className="text-xs sm:text-base text-slate-550 font-semibold mt-0.5 sm:mt-1">Track your bus live</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-14 h-14 shrink-0 bg-white/80 backdrop-blur-xs rounded-2xl flex items-center justify-center border border-blue-100 shadow-2xs">
-                  <svg className="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 bg-white/80 backdrop-blur-xs rounded-xl sm:rounded-2xl flex items-center justify-center border border-blue-100 shadow-2xs">
+                  <svg className="w-5 h-5 sm:w-7 sm:h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
                   </svg>
                 </div>
                 <div>
-                  <p className="text-xl font-extrabold text-slate-800">Instant Updates</p>
-                  <p className="text-base text-slate-550 font-semibold mt-1">Stay informed always</p>
+                  <p className="text-base sm:text-xl font-extrabold text-slate-800">Instant Updates</p>
+                  <p className="text-xs sm:text-base text-slate-550 font-semibold mt-0.5 sm:mt-1">Stay informed always</p>
                 </div>
               </div>
             </div>
 
             {/* Call to Actions */}
-            <div className="flex flex-wrap gap-4 pt-4">
+            <div className="flex flex-wrap gap-3 sm:gap-4 pt-2 sm:pt-4">
               <Button 
                 onClick={() => router.push('/register')}
-                className="bg-[#1B3B2B] hover:bg-[#254d39] text-white px-14 py-9 rounded-2xl font-bold flex items-center gap-3 hover:shadow-lg transition-all group text-lg cursor-pointer border-0"
+                className="bg-[#1B3B2B] hover:bg-[#254d39] text-white px-8 py-5 text-sm sm:px-12 sm:py-8 sm:text-base lg:px-14 lg:py-9 lg:text-lg rounded-xl sm:rounded-2xl font-bold flex items-center gap-2.5 sm:gap-3 hover:shadow-lg transition-all group cursor-pointer border-0"
               >
                 Book Your Seat
                 <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -369,7 +369,7 @@ export default function LandingPage() {
                   const element = document.getElementById('routes');
                   element?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="bg-white border border-slate-200 text-slate-700 px-14 py-9 rounded-2xl font-bold hover:bg-gray-55 transition-all text-lg cursor-pointer"
+                className="bg-white border border-slate-200 text-slate-700 px-8 py-5 text-sm sm:px-12 sm:py-8 sm:text-base lg:px-14 lg:py-9 lg:text-lg rounded-xl sm:rounded-2xl font-bold hover:bg-gray-55 transition-all cursor-pointer"
               >
                 View Routes
               </Button>
@@ -402,7 +402,7 @@ export default function LandingPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
             {/* From Select */}
-            <div className="md:col-span-3 space-y-2">
+            <div className="md:col-span-4 space-y-2">
               <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">From</label>
               <div className="relative group">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600">
@@ -444,7 +444,7 @@ export default function LandingPage() {
             </div>
 
             {/* To Select */}
-            <div className="md:col-span-3 space-y-2">
+            <div className="md:col-span-4 space-y-2">
               <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">To</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600">
@@ -487,31 +487,6 @@ export default function LandingPage() {
                 />
               </div>
               {errors.date && <p className="text-xs text-red-500 font-medium ml-1">{errors.date.message}</p>}
-            </div>
-
-            {/* Passengers Select */}
-            <div className="md:col-span-2 space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">Passengers</label>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
-                  </svg>
-                </span>
-                <select 
-                  className="w-full pl-12 pr-10 py-4 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1B3B2B] text-slate-800 appearance-none cursor-pointer text-sm font-semibold transition-all focus:outline-none"
-                  {...register('passengers')}
-                >
-                  {[1, 2, 3, 4, 5, 6].map(num => (
-                    <option key={num} value={String(num)}>{num} Traveler{num > 1 ? 's' : ''}</option>
-                  ))}
-                </select>
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M19 9l-7 7-7-7" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
-                  </svg>
-                </span>
-              </div>
             </div>
 
             {/* Search Submit Button */}
