@@ -1,8 +1,0 @@
-[build]
-  command = "if [ -d \"flutter\" ]; then cd flutter && git pull && cd ..; else git clone --depth 1 --branch stable https://github.com/flutter/flutter.git; fi && flutter/bin/flutter config --enable-web && flutter/bin/flutter pub get && flutter/bin/flutter build web --release"
-  publish = "build/web"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200

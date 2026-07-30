@@ -1,59 +1,36 @@
-# BGLK -- Bus Booking Application 
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-<h4>🔰 Demo Video : https://youtu.be/DwPL5LmwvXI?si=Rq38S2UF9OuObj8Q </h4>
-<h4>📱 Prototype on Behance : https://www.behance.net/gallery/210901325/Bus-Guide-LK-App-Prototype </h4>
-<p align="center">
-<a href="https://ibb.co/xmr1wsq"><img src="https://i.ibb.co/pWkfNPj/UEE-Demo.jpg" alt="UEE-Demo" border="0"></a>
-</p>   
+## Getting Started
 
+First, run the development server:
 
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Main Features
-This is a mobile application designed to streamline the process of booking a desired bus.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-1.  Bus Schedule and Tracking Feature
-2.  Bus Booking Feature
-3.  Bus Help and Safety Feature
-4.  Bus News and Alerts Feature
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Tech Stack
-- **Flutter**: For building the cross-platform mobile application.
-- **Dart**: The programming language used by Flutter.
-- **Firebase**: For backend services including authentication, database, and storage.
+## Learn More
 
+To learn more about Next.js, take a look at the following resources:
 
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Installation
-To get started with this project, follow these steps:
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-1. **Clone the repository**:
-    ```sh
-    git clone https://github.com/SadeeshaPerera/bus_booking_app.git
-    ```
-2. **Navigate to the project directory**:
-    ```sh
-    cd bus_booking_app
-    ```
-3. **Install dependencies**:
-    ```sh
-    flutter pub get
-    ```
-4. **Run the app**:
-    ```sh
-    flutter run
-    ```
+## Deploy on Vercel
 
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-
-## Contributing
-Please follow these steps to contribute:
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Make your changes.
-4. Commit your changes (`git commit -m 'Add some feature'`).
-5. Push to the branch (`git push origin feature-branch`).
-6. Open a pull request.
-
-
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

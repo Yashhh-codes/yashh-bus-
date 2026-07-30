@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TravelBooking - Better Journeys</title>
+<!-- Tailwind CSS v3 with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style data-purpose="typography">
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .font-serif-heading {
+      font-family: 'Playfair Display', serif;
+    }
+  </style>
+<style data-purpose="custom-styling">
+    .hero-gradient-overlay {
+      background: linear-gradient(90deg, rgba(255,255,255,0.9) 30%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.2) 100%);
+    }
+    .floating-card-shadow {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+    .search-container-blur {
+      backdrop-filter: blur(12px);
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+  </style>
+<link data-snapdom="injected-import" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Playfair+Display:wght@700&amp;display=swap" rel="stylesheet"/></head>
+<body class="bg-gray-50 text-slate-900 overflow-x-hidden">
+<!-- BEGIN: MainHeader -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+<div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+<!-- Logo -->
+<div class="flex items-center gap-2" data-purpose="brand-logo">
+<div class="w-10 h-10 bg-[#1B3B2B] rounded-lg flex items-center justify-center">
+<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 7h8a2 2 0 012 2v10a2 2 0 01-2 2H8a2 2 0 01-2-2V9a2 2 0 012-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M12 18V7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<span class="text-xl font-bold tracking-tight">TravelBooking</span>
+</div>
+<!-- Navigation -->
+<nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+<a class="text-[#1B3B2B] border-b-2 border-[#1B3B2B] pb-1" href="#">Home</a>
+<a class="hover:text-[#1B3B2B] transition-colors" href="#">Routes</a>
+<a class="hover:text-[#1B3B2B] transition-colors" href="#">Notice Board</a>
+<a class="hover:text-[#1B3B2B] transition-colors" href="#">Features</a>
+</nav>
+<!-- Auth Actions -->
+<div class="flex items-center gap-4">
+<a class="text-sm font-semibold hover:text-[#1B3B2B]" href="#">Sign In</a>
+<button class="bg-[#1B3B2B] text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-[#254d39] transition-all">
+          Get Started
+        </button>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: HeroSection -->
+<main class="relative min-h-screen pt-20">
+<!-- Background Image with Gradient Overlay -->
+<div class="absolute inset-0 z-0">
+<img alt="Sleek, modern luxury tour bus driving on a breathtaking mountain pass at golden hour" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqHbQ-a7iZMOlUQr2z9YsjJvCFXER0obbBokVwMrAuISWGSGicie_SWANeeBNZ5Qd9HlR0ys56n0WZChUcmwzdq8I_dU31VMFT8fT8mBN-mNu6i6rVjgavmXTQjuhEltBcKrDq6uKVBptA7UFc0j862WutIHIlh1niI97YgwpcJYBEaGy-zuvfeMiLXQun6k6nsZP-F0JgdfGCVzfYm1Z2-NtGRZUF33xUE5ltFbgbJFmlqsN5-FvQ"/>
+<div class="absolute inset-0 hero-gradient-overlay"></div>
+</div>
+<!-- Content Wrapper -->
+<div class="relative z-10 max-w-7xl mx-auto px-4 pt-20 pb-32">
+<!-- Left Column: Hero Content -->
+<div class="max-w-2xl">
+<!-- Badge -->
+<div class="inline-flex items-center gap-2 px-4 py-1.5 bg-green-50/90 backdrop-blur-sm border border-green-100 rounded-full mb-8" data-purpose="status-badge">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-xs font-semibold text-green-800">Phase 1 Live Passenger Web App</span>
+</div>
+<h1 class="text-6xl md:text-7xl font-serif-heading text-[#1B3B2B] leading-tight mb-4">
+          Better Journeys.<br/>
+<span class="text-[#2D5A42]">Every Single Time.</span>
+</h1>
+<p class="text-lg text-slate-600 max-w-md mb-10 leading-relaxed">
+          Discover reliable bus services, comfortable seats, live tracking and instant booking — all in one place.
+        </p>
+<!-- Feature Points -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12" data-purpose="key-features">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 shrink-0 bg-white/80 backdrop-blur-sm rounded-lg flex items-center justify-center border border-green-100">
+<svg class="w-5 h-5 text-[#1B3B2B]" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+</div>
+<div>
+<p class="text-sm font-bold">Premium Seats</p>
+<p class="text-xs text-slate-500">Comfort you deserve</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 shrink-0 bg-white/80 backdrop-blur-sm rounded-lg flex items-center justify-center border border-orange-100">
+<svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+</div>
+<div>
+<p class="text-sm font-bold">Live Tracking</p>
+<p class="text-xs text-slate-500">Track your bus live</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 shrink-0 bg-white/80 backdrop-blur-sm rounded-lg flex items-center justify-center border border-blue-100">
+<svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+</div>
+<div>
+<p class="text-sm font-bold">Instant Updates</p>
+<p class="text-xs text-slate-500">Stay informed always</p>
+</div>
+</div>
+</div>
+<!-- Call to Actions -->
+<div class="flex flex-wrap gap-4 mb-16">
+<button class="bg-[#1B3B2B] text-white px-8 py-4 rounded-xl font-bold flex items-center gap-3 hover:shadow-lg transition-all group">
+            Book Your Seat
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<button class="bg-white border border-gray-300 text-slate-700 px-8 py-4 rounded-xl font-bold hover:bg-gray-50 transition-all">
+            View Routes
+          </button>
+</div>
+</div>
+<!-- Floating Stat Cards (Right side/Visual accents) -->
+<!-- Quick Stats Bar -->
+<div class="bg-white/80 backdrop-blur rounded-2xl p-6 border border-white floating-card-shadow max-w-4xl mx-auto flex flex-wrap justify-between items-center gap-8 mb-10">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center text-[#1B3B2B]">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+</div>
+<div>
+<p class="text-xl font-bold">12K+</p>
+<p class="text-xs text-slate-500">Happy Travelers</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 20l-5.447-2.724A2 2 0 013 15.488V5.512a2 2 0 011.553-1.944L9 2l6 3 5.447-2.724A2 2 0 0121 4.224v9.976a2 2 0 01-1.553 1.944L15 19l-6 1z"></path></svg>
+</div>
+<div>
+<p class="text-xl font-bold">150+</p>
+<p class="text-xs text-slate-500">Routes Covered</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+</div>
+<div>
+<p class="text-xl font-bold">99%</p>
+<p class="text-xs text-slate-500">On-Time Performance</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+</div>
+<div>
+<p class="text-xl font-bold">24/7</p>
+<p class="text-xs text-slate-500">Customer Support</p>
+</div>
+</div>
+</div>
+<!-- Search Bar -->
+<div class="max-w-6xl mx-auto search-container-blur rounded-[2rem] p-8 shadow-2xl border border-white/40" data-purpose="journey-search">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+<svg class="w-6 h-6 text-[#1B3B2B]" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<h3 class="text-2xl font-bold text-[#1B3B2B]">Find Your Journey</h3>
+</div>
+<button class="bg-white/80 border border-gray-200 px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 hover:bg-white transition-colors">
+<svg class="w-4 h-4 text-green-600" fill="currentColor" viewbox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            Fast Search
+          </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+<!-- From -->
+<div class="md:col-span-3 space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">From</label>
+<div class="relative group">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-green-600">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</span>
+<input class="w-full pl-12 pr-4 py-4 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1B3B2B] text-slate-800 placeholder:text-slate-400" placeholder="e.g. Swargate" type="text"/>
+</div>
+</div>
+<!-- Switcher -->
+<div class="md:col-span-1 flex justify-center mb-1">
+<button class="w-10 h-10 bg-white shadow-md rounded-xl flex items-center justify-center hover:bg-slate-50 transition-colors border border-gray-100">
+<svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+<!-- To -->
+<div class="md:col-span-3 space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">To</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-green-600">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</span>
+<input class="w-full pl-12 pr-4 py-4 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1B3B2B] text-slate-800 placeholder:text-slate-400" placeholder="e.g. Kothrud" type="text"/>
+</div>
+</div>
+<!-- Date -->
+<div class="md:col-span-2 space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">Date</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-green-600">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</span>
+<input class="w-full pl-12 pr-4 py-4 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1B3B2B] text-slate-800 placeholder:text-slate-400" placeholder="Select Date" type="text"/>
+</div>
+</div>
+<!-- Passengers -->
+<div class="md:col-span-2 space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">Passengers</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-green-600">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</span>
+<select class="w-full pl-12 pr-10 py-4 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1B3B2B] text-slate-800 appearance-none">
+<option>1 Passenger</option>
+<option>2 Passengers</option>
+<option>3 Passengers</option>
+</select>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</span>
+</div>
+</div>
+<!-- Search Button -->
+<div class="md:col-span-1">
+<button class="w-full aspect-square bg-[#1B3B2B] text-white rounded-2xl flex items-center justify-center hover:bg-[#254d39] transition-all shadow-lg hover:shadow-xl">
+<svg class="w-7 h-7" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- END: HeroSection -->
+</body></html>
