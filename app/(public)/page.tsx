@@ -378,19 +378,19 @@ export default function LandingPage() {
         </div>
 
         {/* Search Bar Container (nested inside Hero Section to extend golden hour mountain highway background) */}
-        <div className="max-w-[1280px] w-[calc(100%-2rem)] mx-auto search-container-blur rounded-[2rem] p-8 shadow-2xl border border-white/45 relative z-20 mb-20 mt-4">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm">
-              <svg className="w-6 h-6 text-[#1B3B2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="max-w-[1280px] w-[calc(100%-2rem)] mx-auto search-container-blur rounded-2xl md:rounded-[2rem] p-5 md:p-8 shadow-2xl border border-white/45 relative z-20 mb-20 mt-4">
+        <div className="flex items-center justify-between gap-4 mb-6 md:mb-8">
+          <div className="flex items-center gap-3 md:gap-4 min-w-0">
+            <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-white rounded-xl md:rounded-2xl flex items-center justify-center shadow-sm">
+              <svg className="w-5 h-5 md:w-6 md:h-6 text-[#1B3B2B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
               </svg>
             </div>
-            <h3 className="text-2xl font-bold text-[#1B3B2B]">Find Your Journey</h3>
+            <h3 className="text-lg md:text-2xl font-bold text-[#1B3B2B] truncate">Find Your Journey</h3>
           </div>
           <button 
             type="button"
-            className="bg-white/80 border border-gray-200 px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 hover:bg-white transition-colors cursor-pointer select-none"
+            className="whitespace-nowrap min-w-fit px-4 h-9 bg-white/80 border border-gray-200 rounded-full text-xs font-bold flex items-center gap-1.5 hover:bg-white transition-colors cursor-pointer select-none shrink-0"
           >
             <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
               <path d="M13 10V3L4 14h7v7l9-11h-7z"></path>
@@ -403,7 +403,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
             {/* From Select */}
             <div className="md:col-span-4 space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">From</label>
+              <label className="text-[11px] md:text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">From</label>
               <div className="relative group">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -411,7 +411,7 @@ export default function LandingPage() {
                   </svg>
                 </span>
                 <select 
-                  className="w-full pl-12 pr-10 py-4 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1B3B2B] text-slate-800 appearance-none cursor-pointer text-sm font-semibold transition-all focus:outline-none"
+                  className="w-full pl-12 pr-10 h-12 md:h-14 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1B3B2B] text-slate-800 appearance-none cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
                   {...register('from')}
                 >
                   <option value="" disabled>e.g. Swargate</option>
@@ -445,7 +445,7 @@ export default function LandingPage() {
 
             {/* To Select */}
             <div className="md:col-span-4 space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">To</label>
+              <label className="text-[11px] md:text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">To</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -453,7 +453,7 @@ export default function LandingPage() {
                   </svg>
                 </span>
                 <select 
-                  className="w-full pl-12 pr-10 py-4 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1B3B2B] text-slate-800 appearance-none cursor-pointer text-sm font-semibold transition-all focus:outline-none"
+                  className="w-full pl-12 pr-10 h-12 md:h-14 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1B3B2B] text-slate-800 appearance-none cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
                   {...register('to')}
                 >
                   <option value="" disabled>e.g. Kothrud</option>
@@ -472,7 +472,7 @@ export default function LandingPage() {
 
             {/* Date Select */}
             <div className="md:col-span-2 space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">Date</label>
+              <label className="text-[11px] md:text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">Date</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -482,7 +482,7 @@ export default function LandingPage() {
                 <input 
                   type="date"
                   min={new Date().toISOString().split('T')[0]}
-                  className="w-full pl-12 pr-4 py-[14px] bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1B3B2B] text-slate-800 cursor-pointer text-sm font-semibold transition-all focus:outline-none"
+                  className="w-full pl-12 pr-4 h-12 md:h-[56px] bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1B3B2B] text-slate-800 cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
                   {...register('date')}
                 />
               </div>
@@ -490,31 +490,32 @@ export default function LandingPage() {
             </div>
 
             {/* Search Submit Button */}
-            <div className="md:col-span-1">
+            <div className="md:col-span-1 w-full">
               <Button 
                 type="submit"
-                className="w-full h-[52px] bg-[#1B3B2B] hover:bg-[#254d39] text-white rounded-2xl flex items-center justify-center hover:shadow-lg active:scale-95 transition-all cursor-pointer border-0"
+                className="w-full h-12 md:h-[56px] bg-[#1B3B2B] hover:bg-[#254d39] text-white rounded-2xl flex items-center justify-center gap-2 hover:shadow-lg active:scale-95 transition-all cursor-pointer border-0 text-sm font-bold"
               >
-                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
                 </svg>
+                <span className="md:hidden">Search Journeys</span>
               </Button>
             </div>
           </div>
 
           {/* Bottom highlights info */}
-          <div className="border-t border-slate-100 pt-4 flex flex-wrap items-center justify-start gap-6 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
-            <div className="flex items-center">
+          <div className="border-t border-slate-100 pt-4 flex flex-row flex-nowrap overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden items-center justify-center md:justify-start gap-4 md:gap-6 text-[11px] md:text-[10px] font-extrabold text-slate-400 uppercase tracking-wider whitespace-nowrap w-full">
+            <div className="flex items-center shrink-0">
               <span className="text-[#1B3B2B] mr-1.5">&bull;</span>
               <span>Best Prices</span>
             </div>
-            <div className="w-px h-3.5 bg-slate-200" />
-            <div className="flex items-center">
+            <div className="w-px h-3.5 bg-slate-200 shrink-0" />
+            <div className="flex items-center shrink-0">
               <span className="text-[#1B3B2B] mr-1.5">&bull;</span>
               <span>Secure Booking</span>
             </div>
-            <div className="w-px h-3.5 bg-slate-200" />
-            <div className="flex items-center">
+            <div className="w-px h-3.5 bg-slate-200 shrink-0" />
+            <div className="flex items-center shrink-0">
               <span className="text-[#1B3B2B] mr-1.5">&bull;</span>
               <span>24/7 Support</span>
             </div>
