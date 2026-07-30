@@ -287,7 +287,7 @@ export default function LandingPage() {
           <img 
             alt="Sleek, modern luxury tour bus driving on a breathtaking mountain pass at golden hour" 
             className="w-full h-full object-cover object-center animate-fade-in contrast-105 saturate-[1.02] brightness-[0.98]" 
-            src="/luxury_tour_bus.png"
+            src="/luxury_tour_bus.png?v=2"
           />
           <div className="absolute inset-0 hero-gradient-overlay"></div>
         </div>
