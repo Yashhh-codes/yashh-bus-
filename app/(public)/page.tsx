@@ -108,7 +108,7 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-fit bg-[#F8FAFC]">
       {/* Dynamic Fonts & Style overrides from Stitch layout */}
-      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&display=swap" rel="stylesheet" />
       <style dangerouslySetInnerHTML={{__html: `
         .hero-gradient-overlay {
           position: absolute;
@@ -127,8 +127,9 @@ export default function LandingPage() {
           border: 1.5px solid rgba(255, 255, 255, 0.7);
           box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.12);
         }
-        .font-serif-heading {
-          font-family: 'Playfair Display', serif;
+        .font-display-heading {
+          font-family: 'Outfit', sans-serif;
+          font-weight: 800;
         }
       `}} />
 
@@ -299,7 +300,7 @@ export default function LandingPage() {
 
 
             {/* Headline */}
-            <h1 className="text-4xl md:text-[3.2rem] lg:text-[3.8rem] xl:text-[4.4rem] font-serif-heading text-[#0F1E36] leading-[1.1] tracking-tight max-w-[280px] md:max-w-none">
+            <h1 className="text-4xl md:text-[3.2rem] lg:text-[3.8rem] xl:text-[4.4rem] font-display-heading text-[#0F1E36] leading-[1.05] tracking-tight max-w-[280px] md:max-w-none">
               Better Journeys.<br/>
               <span className="text-[#2A4B7C]">Every Single Time.</span>
             </h1>
