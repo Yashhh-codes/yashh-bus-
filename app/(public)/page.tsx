@@ -114,16 +114,16 @@ export default function LandingPage() {
           position: absolute;
           inset: 0;
           background: 
-            linear-gradient(180deg, rgba(234, 243, 239, 0.12) 0%, rgba(234, 243, 239, 0) 18%),
-            radial-gradient(circle at 20% 40%, rgba(234, 243, 239, 0.5) 0%, rgba(234, 243, 239, 0) 55%),
-            linear-gradient(90deg, rgba(234, 243, 239, 0.94) 22%, rgba(234, 243, 239, 0.5) 52%, rgba(234, 243, 239, 0.05) 100%);
+            linear-gradient(180deg, rgba(240, 244, 248, 0.1) 0%, rgba(240, 244, 248, 0) 25%),
+            radial-gradient(circle at 20% 50%, rgba(240, 244, 248, 0.4) 0%, rgba(240, 244, 248, 0) 65%),
+            linear-gradient(90deg, rgba(240, 244, 248, 0.92) 20%, rgba(240, 244, 248, 0.4) 55%, rgba(240, 244, 248, 0) 85%);
         }
         .floating-card-shadow {
           box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
         .search-container-blur {
           backdrop-filter: blur(28px) saturate(210%);
-          background-color: rgba(234, 243, 239, 0.65);
+          background-color: rgba(240, 244, 248, 0.65);
           border: 1.5px solid rgba(255, 255, 255, 0.7);
           box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.12);
         }
@@ -286,8 +286,8 @@ export default function LandingPage() {
         <div className="absolute inset-0 z-0">
           <img 
             alt="Sleek, modern luxury tour bus driving on a breathtaking mountain pass at golden hour" 
-            className="w-full h-full object-cover object-center animate-fade-in" 
-            src="/luxury_tour_bus.jpg"
+            className="w-full h-full object-cover object-center animate-fade-in contrast-105 saturate-[1.02] brightness-[0.98]" 
+            src="/luxury_tour_bus.png"
           />
           <div className="absolute inset-0 hero-gradient-overlay"></div>
         </div>
