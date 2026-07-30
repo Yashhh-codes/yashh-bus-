@@ -305,7 +305,7 @@ export default function LandingPage() {
             {/* Headline */}
             <h1 className="text-4xl md:text-[3.2rem] lg:text-[3.8rem] xl:text-[4.4rem] font-serif-heading text-[#0F1E36] leading-[1.1] tracking-tight max-w-[280px] md:max-w-none">
               Better Journeys.<br/>
-              <span className="text-[#2563EB]">Every Single Time.</span>
+              <span className="text-[#2A4B7C]">Every Single Time.</span>
             </h1>
 
             {/* Subtitle */}
