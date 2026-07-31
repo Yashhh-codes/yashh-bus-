@@ -30,8 +30,8 @@ export function NavigationBar() {
   ];
 
   return (
-    <div className="sticky top-5 z-50 w-[calc(100%-2rem)] max-w-[850px] mx-auto mt-6 mb-0">
-      <header className="w-full h-16 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/40 dark:border-slate-800/40 rounded-full px-5 shadow-[0_8px_32px_0_rgba(99,102,241,0.06)] flex items-center justify-between relative z-50">
+    <div className="sticky top-0 md:top-5 z-50 w-full md:w-[calc(100%-2rem)] max-w-[850px] mx-auto mt-0 md:mt-6 mb-0">
+      <header className="w-full h-14 md:h-16 bg-white/75 dark:bg-slate-900/75 backdrop-blur-xl border-b border-slate-100 md:border md:border-white/40 dark:border-slate-800/40 md:rounded-full px-4 md:px-5 shadow-[0_4px_20px_rgba(99,102,241,0.04)] flex items-center justify-between relative z-50 pt-safe">
         
         {/* Logo */}
         <div className="flex items-center space-x-2">
@@ -120,65 +120,122 @@ export function NavigationBar() {
 
           {/* Mobile Hamburger menu */}
           <button 
-            onClick={() => setIsMobileMenuOpen(prev => !prev)}
-            className="md:hidden p-1.5 text-slate-500 hover:text-slate-900 rounded-full hover:bg-slate-50 transition-colors cursor-pointer"
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="md:hidden p-1.5 text-slate-500 hover:text-slate-900 rounded-full hover:bg-slate-50/50 transition-colors cursor-pointer"
           >
-            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <Menu className="h-5 w-5" />
           </button>
         </div>
       </header>
 
-      {/* Mobile Dropdown Panel */}
+      {/* Mobile Side-Drawer */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="absolute top-20 left-0 right-0 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/40 dark:border-slate-800/40 rounded-[24px] p-4 shadow-xl z-40 space-y-2 md:hidden"
-          >
-            {navItems.map((item) => {
-              const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
-              return (
-                <Link 
-                  key={item.href} 
-                  href={item.href}
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.4 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 md:hidden"
+            />
+            {/* Drawer Panel */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 26, stiffness: 240 }}
+              className="fixed inset-y-0 right-0 w-[280px] bg-white dark:bg-slate-900 shadow-2xl z-50 p-6 flex flex-col md:hidden pt-[calc(24px+env(safe-area-inset-top,0px))] pb-[calc(24px+env(safe-area-inset-bottom,0px))]"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 mb-6">
+                <div className="flex items-center space-x-2">
+                  <div className="p-1.5 bg-indigo-600 rounded-full text-white">
+                    <Bus className="h-4 w-4" />
+                  </div>
+                  <span className="text-sm font-bold tracking-tight text-slate-800 dark:text-slate-100">Travel Menu</span>
+                </div>
+                <button 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block px-4 py-2.5 text-sm rounded-xl transition-all ${
-                    isActive 
-                      ? 'text-indigo-600 bg-indigo-50/40 dark:bg-indigo-950/20 font-bold' 
-                      : 'text-slate-650 hover:bg-white/40 dark:hover:bg-slate-850/40'
-                  }`}
+                  className="p-1 text-slate-400 hover:text-slate-650 rounded-lg cursor-pointer animate-scale-in"
                 >
-                  {item.name}
-                </Link>
-              );
-            })}
-            {user && (user.role === 'admin' || user.role === 'manager') && (
-              <Link 
-                href="/dashboard"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-2.5 text-sm font-bold text-indigo-600 hover:bg-indigo-50/40 rounded-xl transition-all"
-              >
-                Dashboard Portal
-              </Link>
-            )}
-            {!user && (
-              <div className="border-t border-slate-100/80 pt-3 mt-3 flex flex-col space-y-2">
-                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="w-full">
-                  <Button variant="outline" className="w-full h-10 rounded-xl text-slate-700 font-bold border-slate-200 cursor-pointer">
-                    Sign In
-                  </Button>
-                </Link>
-                <Link href="/register" onClick={() => setIsMobileMenuOpen(false)} className="w-full">
-                  <Button className="w-full h-10 bg-indigo-600 text-white font-bold hover:bg-indigo-700 rounded-xl cursor-pointer">
-                    Get Started
-                  </Button>
-                </Link>
+                  <X className="h-5 w-5" />
+                </button>
               </div>
-            )}
-          </motion.div>
+
+              {/* Navigation Items */}
+              <nav className="flex-1 space-y-1">
+                {navItems.map((item) => {
+                  const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+                  const Icon = item.icon;
+                  return (
+                    <Link 
+                      key={item.href} 
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-xl transition-all ${
+                        isActive 
+                          ? 'text-indigo-600 bg-indigo-50/50 dark:bg-indigo-950/20 font-bold' 
+                          : 'text-slate-600 dark:text-slate-350 hover:bg-slate-50'
+                      }`}
+                    >
+                      <Icon className="h-4 w-4 shrink-0" />
+                      <span>{item.name}</span>
+                    </Link>
+                  );
+                })}
+                {user && (user.role === 'admin' || user.role === 'manager') && (
+                  <Link 
+                    href="/dashboard"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 text-sm font-bold text-indigo-600 hover:bg-indigo-50/50 rounded-xl transition-all"
+                  >
+                    <LayoutDashboard className="h-4 w-4 text-indigo-500" />
+                    <span>Dashboard Portal</span>
+                  </Link>
+                )}
+              </nav>
+
+              {/* Auth / Action Button Footer */}
+              {!user ? (
+                <div className="border-t border-slate-100 dark:border-slate-800 pt-4 space-y-2">
+                  <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="w-full block">
+                    <Button variant="outline" className="w-full h-12 rounded-xl text-slate-705 font-bold border-slate-200 cursor-pointer">
+                      Sign In
+                    </Button>
+                  </Link>
+                  <Link href="/register" onClick={() => setIsMobileMenuOpen(false)} className="w-full block">
+                    <Button className="w-full h-12 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl cursor-pointer">
+                      Get Started
+                    </Button>
+                  </Link>
+                </div>
+              ) : (
+                <div className="border-t border-slate-100 dark:border-slate-800 pt-4 space-y-3">
+                  <div className="flex items-center space-x-3 px-2">
+                    <div className="h-9 w-9 bg-indigo-105 rounded-full flex items-center justify-center font-bold text-indigo-750 text-sm">
+                      {user.displayName ? user.displayName.substring(0, 2).toUpperCase() : 'US'}
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">{user.displayName}</span>
+                      <span className="text-[10px] text-slate-450 dark:text-slate-400 truncate">{user.email}</span>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      signOutUser();
+                    }} 
+                    className="w-full flex items-center justify-center gap-2 h-12 border border-rose-200 text-rose-600 bg-rose-50/30 hover:bg-rose-50 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Log Out
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </div>

@@ -52,7 +52,7 @@ export function Sidebar({
   return (
     <aside
       className={cn(
-        "fixed inset-y-0 left-0 z-40 flex flex-col bg-white border-r border-slate-100 transition-all duration-300 ease-in-out",
+        "fixed inset-y-0 left-0 z-40 flex flex-col bg-white border-r border-slate-100 transition-all duration-300 ease-in-out pt-safe pb-safe md:pt-0 md:pb-0",
         // Desktop/Tablet width behavior
         isCollapsed ? "w-20" : "w-[260px]",
         // Mobile drawer positioning

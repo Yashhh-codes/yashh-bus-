@@ -634,7 +634,7 @@ function LandingPageContent() {
       </div>
 
       {/* BEGIN: HeroSection */}
-      <section id="home" className="relative min-h-[720px] md:min-h-[80vh] lg:min-h-[85vh] w-full overflow-hidden bg-slate-900 isolate">
+      <section id="home" className="relative min-h-[520px] md:min-h-[80vh] lg:min-h-[85vh] w-full overflow-hidden bg-slate-900 isolate">
         {/* Background Image with Gradient Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
@@ -646,19 +646,19 @@ function LandingPageContent() {
         </div>
 
         {/* Content Wrapper */}
-        <div className="relative z-10 max-w-[1280px] mx-auto px-6 md:pl-6 md:pr-12 pt-24 pb-4 md:pt-28 md:pb-8">
+        <div className="relative z-10 max-w-[1280px] mx-auto px-6 md:pl-6 md:pr-12 pt-20 pb-4 md:pt-28 md:pb-8">
           {/* Left Column: Hero Content */}
           <div className="max-w-5xl space-y-6 md:space-y-8">
 
 
             {/* Headline */}
-            <h1 className="text-4xl md:text-[3.2rem] lg:text-[3.8rem] xl:text-[4.4rem] font-display-heading text-[#0F1E36] leading-[1.05] tracking-tight max-w-[280px] md:max-w-none">
+            <h1 className="text-3xl sm:text-4xl md:text-[3.2rem] lg:text-[3.8rem] xl:text-[4.4rem] font-display-heading text-[#0F1E36] leading-[1.1] md:leading-[1.05] tracking-tight max-w-[280px] md:max-w-none">
               Better Journeys.<br/>
               <span className="text-[#2A4B7C]">Every Single Time.</span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-sm md:text-lg lg:text-xl text-slate-655 max-w-[300px] md:max-w-2xl leading-6 md:leading-relaxed font-medium">
+            <p className="text-xs sm:text-sm md:text-lg lg:text-xl text-slate-655 max-w-[300px] md:max-w-2xl leading-5 md:leading-relaxed font-medium">
               Discover reliable bus services, comfortable seats, live tracking and instant booking — all in one place.
             </p>
 
@@ -760,7 +760,7 @@ function LandingPageContent() {
                   </svg>
                 </span>
                 <select 
-                  className="w-full pl-12 pr-10 h-12 md:h-14 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1A365D] text-slate-800 appearance-none cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
+                  className="w-full pl-12 pr-10 h-12 md:h-14 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1A365D] text-slate-800 appearance-none cursor-pointer text-base md:text-sm font-semibold transition-all focus:outline-none"
                   {...register('from')}
                 >
                   <option value="" disabled>e.g. Pune</option>
@@ -802,7 +802,7 @@ function LandingPageContent() {
                   </svg>
                 </span>
                 <select 
-                  className="w-full pl-12 pr-10 h-12 md:h-14 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1A365D] text-slate-800 appearance-none cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
+                  className="w-full pl-12 pr-10 h-12 md:h-14 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1A365D] text-slate-800 appearance-none cursor-pointer text-base md:text-sm font-semibold transition-all focus:outline-none"
                   {...register('to')}
                 >
                   <option value="" disabled>e.g. Mumbai</option>
@@ -831,7 +831,7 @@ function LandingPageContent() {
                 <input 
                   type="date"
                   min={new Date().toISOString().split('T')[0]}
-                  className="w-full pl-12 pr-4 h-12 md:h-[56px] bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1A365D] text-slate-800 cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
+                  className="w-full pl-12 pr-4 h-12 md:h-14 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1A365D] text-slate-800 cursor-pointer text-base md:text-sm font-semibold transition-all focus:outline-none"
                   {...register('date')}
                 />
               </div>
@@ -846,7 +846,7 @@ function LandingPageContent() {
                   <Users className="h-5 w-5" />
                 </span>
                 <select 
-                  className="w-full pl-12 pr-10 h-12 md:h-[56px] bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1A365D] text-slate-800 appearance-none cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
+                  className="w-full pl-12 pr-10 h-12 md:h-14 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1A365D] text-slate-800 appearance-none cursor-pointer text-base md:text-sm font-semibold transition-all focus:outline-none"
                   {...register('passengers')}
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
@@ -866,7 +866,7 @@ function LandingPageContent() {
             <div className="md:col-span-1 w-full">
               <Button 
                 type="submit"
-                className="w-full h-12 md:h-[56px] bg-[#0F1E36] hover:bg-[#1E3A8A] text-white rounded-2xl flex items-center justify-center gap-2 hover:shadow-lg active:scale-95 transition-all cursor-pointer border-0 text-sm font-bold"
+                className="w-full h-12 md:h-14 bg-[#0F1E36] hover:bg-[#1E3A8A] text-white rounded-2xl flex items-center justify-center gap-2 hover:shadow-lg active:scale-95 transition-all cursor-pointer border-0 text-sm font-bold"
               >
                 <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
@@ -1128,9 +1128,9 @@ function LandingPageContent() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            className="flex overflow-x-auto gap-5 pb-4 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-3 md:gap-8"
           >
-            <motion.div variants={itemVariants} className="p-6 bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800/80 hover:border-indigo-500/50 hover:bg-slate-900/85 hover:shadow-lg transition-all duration-300 space-y-4">
+            <motion.div variants={itemVariants} className="snap-start min-w-[280px] shrink-0 md:min-w-0 p-6 bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800/80 hover:border-indigo-500/50 hover:bg-slate-900/85 hover:shadow-lg transition-all duration-300 space-y-4">
               <div className="p-3 bg-indigo-500/20 rounded-xl text-indigo-400 w-fit">
                 <Ticket className="h-6 w-6" />
               </div>
@@ -1140,7 +1140,7 @@ function LandingPageContent() {
               </p>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="p-6 bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800/80 hover:border-indigo-500/50 hover:bg-slate-900/85 hover:shadow-lg transition-all duration-300 space-y-4">
+            <motion.div variants={itemVariants} className="snap-start min-w-[280px] shrink-0 md:min-w-0 p-6 bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800/80 hover:border-indigo-500/50 hover:bg-slate-900/85 hover:shadow-lg transition-all duration-300 space-y-4">
               <div className="p-3 bg-indigo-500/20 rounded-xl text-indigo-400 w-fit">
                 <MapPin className="h-6 w-6" />
               </div>
@@ -1150,7 +1150,7 @@ function LandingPageContent() {
               </p>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="p-6 bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800/80 hover:border-indigo-500/50 hover:bg-slate-900/85 hover:shadow-lg transition-all duration-300 space-y-4">
+            <motion.div variants={itemVariants} className="snap-start min-w-[280px] shrink-0 md:min-w-0 p-6 bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800/80 hover:border-indigo-500/50 hover:bg-slate-900/85 hover:shadow-lg transition-all duration-300 space-y-4">
               <div className="p-3 bg-indigo-500/20 rounded-xl text-indigo-400 w-fit">
                 <ShieldCheck className="h-6 w-6" />
               </div>
@@ -1177,14 +1177,14 @@ function LandingPageContent() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="flex overflow-x-auto gap-5 pb-4 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 lg:gap-6"
           >
             {popularRoutes.map((route, idx) => (
               <motion.div
                 key={idx}
                 variants={itemVariants}
                 whileHover={{ y: -5 }}
-                className="bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm space-y-4 hover:shadow-md transition-all"
+                className="snap-start min-w-[260px] shrink-0 sm:min-w-0 bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm space-y-4 hover:shadow-md transition-all"
               >
                 <div className="flex justify-between items-start">
                   <div className="px-2 py-0.5 bg-indigo-50 border border-indigo-100 rounded-md text-[10px] font-bold text-[#1A365D] uppercase">

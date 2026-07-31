@@ -160,3 +160,24 @@
 .intrinsic-size-notices {
   contain-intrinsic-size: auto 500px;
 }
+
+@utility mobile-touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+@utility mb-safe {
+  margin-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@utility mt-safe {
+  margin-top: env(safe-area-inset-top, 0px);
+}

@@ -484,46 +484,37 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
                         </div>
                       </div>
 
-                      <div className="p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
+                      <div className="p-4 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
                         
-                        {/* Travel Timings & Route details (responsive flex reflow) */}
-                        <div className="space-y-4 flex-1 w-full">
-                          <div className="flex flex-col md:flex-row md:items-center justify-start gap-3 md:gap-6 w-full">
+                        {/* Travel Timings & Route details */}
+                        <div className="space-y-3.5 flex-1 w-full">
+                          <div className="flex items-center justify-between w-full">
                             
                             {/* Departure */}
-                            <div className="flex md:block items-center justify-between md:justify-start">
-                              <span className="md:hidden text-[10px] font-bold text-slate-400 uppercase tracking-widest">Departure</span>
-                              <div className="text-right md:text-left">
-                                <div className="text-lg md:text-xl font-extrabold text-slate-900">{schedule.departureTime}</div>
-                                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">{from}</div>
-                              </div>
+                            <div className="text-left">
+                              <div className="text-base md:text-xl font-extrabold text-slate-900 leading-none">{schedule.departureTime}</div>
+                              <div className="text-[10px] md:text-xs font-semibold text-slate-500 uppercase tracking-wide mt-1">{from}</div>
                             </div>
                             
                             {/* Proximity / Direction arrow line */}
-                            <div className="flex flex-col items-center justify-center md:flex-1 md:max-w-[120px] -my-1.5 md:my-0">
-                              <span className="text-[10px] font-bold text-indigo-650 mb-0.5">
+                            <div className="flex-1 flex flex-col items-center justify-center px-4 max-w-[120px]">
+                              <span className="text-[9px] md:text-[10px] font-bold text-indigo-650 mb-0.5 whitespace-nowrap">
                                 {schedule.route?.durationHours} hrs
                               </span>
-                              <div className="hidden md:block w-full h-px bg-slate-200 relative">
-                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-1.5 w-1.5 bg-indigo-600 rounded-full" />
-                              </div>
-                              <div className="md:hidden text-slate-400 text-xs font-bold animate-pulse">
-                                &darr;
+                              <div className="w-full h-px bg-slate-200 relative">
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-1 w-1 bg-indigo-600 rounded-full" />
                               </div>
                             </div>
 
                             {/* Arrival */}
-                            <div className="flex md:block items-center justify-between md:justify-start">
-                              <span className="md:hidden text-[10px] font-bold text-slate-400 uppercase tracking-widest">Arrival</span>
-                              <div className="text-right md:text-left">
-                                <div className="text-lg md:text-xl font-extrabold text-slate-900">{schedule.arrivalTime}</div>
-                                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">{to}</div>
-                              </div>
+                            <div className="text-right">
+                              <div className="text-base md:text-xl font-extrabold text-slate-900 leading-none">{schedule.arrivalTime}</div>
+                              <div className="text-[10px] md:text-xs font-semibold text-slate-500 uppercase tracking-wide mt-1">{to}</div>
                             </div>
                           </div>
 
                           {/* Bus specifications tags */}
-                          <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
+                          <div className="flex flex-wrap items-center gap-1.5 pt-0.5 text-[11px] md:text-xs">
                             <span className="px-2 py-0.5 bg-slate-100 rounded-md font-bold text-slate-600">
                               {schedule.bus?.busNumber}
                             </span>
@@ -531,7 +522,7 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
                               {schedule.bus?.busType}
                             </span>
                             {schedule.bus?.amenities.slice(0, 3).map((a, idx) => (
-                              <span key={idx} className="text-slate-400 font-medium text-[11px]">
+                              <span key={idx} className="text-slate-400 font-medium text-[10px] md:text-[11px]">
                                 &bull; {a}
                               </span>
                             ))}
@@ -539,20 +530,20 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
                         </div>
 
                         {/* Price & Call to Action (responsive flex reflow) */}
-                        <div className="flex md:flex-col items-center md:items-end justify-between md:justify-center border-t md:border-t-0 border-slate-100 pt-4 md:pt-0 gap-4 w-full md:w-auto">
+                        <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center border-t md:border-t-0 border-slate-100 pt-3.5 md:pt-0 gap-4 w-full md:w-auto">
                           <div className="text-left md:text-right">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Per Seat</span>
-                            <span className="text-lg md:text-xl font-black text-amber-500">INR {schedule.seatPriceLkr}</span>
-                            <span className="text-[10px] font-bold text-emerald-600 block mt-0.5 select-none">
+                            <span className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest block leading-none">Per Seat</span>
+                            <span className="text-lg md:text-xl font-black text-amber-500 block mt-0.5">INR {schedule.seatPriceLkr}</span>
+                            <span className="text-[9px] md:text-[10px] font-bold text-emerald-600 block mt-0.5 select-none leading-none">
                               {schedule.availableSeats ?? 30} Seats Available
                             </span>
                           </div>
 
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-2 shrink-0">
                             {/* Bus Details Dialog */}
                             <Dialog>
-                              <DialogTrigger className="text-slate-400 hover:text-slate-600 border border-slate-200 bg-slate-50 shadow-inner rounded-xl p-3 flex items-center justify-center cursor-pointer hover:bg-slate-100 transition-all active:scale-95">
-                                <Info className="h-4.5 w-4.5" />
+                              <DialogTrigger className="text-slate-400 hover:text-slate-600 border border-slate-200 bg-slate-50 shadow-inner rounded-xl p-2.5 h-10 w-10 flex items-center justify-center cursor-pointer hover:bg-slate-100 transition-all active:scale-95 shrink-0">
+                                <Info className="h-4 w-4" />
                               </DialogTrigger>
                               <DialogContent className="sm:max-w-md bg-white border border-slate-200 rounded-3xl p-6 shadow-xl">
                                 <DialogHeader>
@@ -589,7 +580,7 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
 
                             <Button 
                               onClick={() => handleSelectSeats(schedule.id)}
-                              className="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md cursor-pointer transition-all active:scale-98 text-xs py-5 px-5"
+                              className="h-10 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md cursor-pointer transition-all active:scale-95 text-xs whitespace-nowrap"
                             >
                               Select Seats
                             </Button>
@@ -624,12 +615,15 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-              className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-50 rounded-t-3xl p-6 space-y-6 shadow-2xl max-h-[85vh] overflow-y-auto lg:hidden"
+              className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-50 rounded-t-[28px] px-6 pt-3 pb-[calc(24px+env(safe-area-inset-bottom,0px))] space-y-6 shadow-2xl max-h-[85vh] overflow-y-auto lg:hidden"
             >
+              {/* Grab Handle Indicator */}
+              <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-2 cursor-pointer" onClick={() => setShowMobileFilters(false)} />
+              
               {renderFilters()}
               <Button
                 onClick={() => setShowMobileFilters(false)}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl py-4 mt-2 cursor-pointer transition-all active:scale-95"
+                className="w-full h-12 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl mt-2 cursor-pointer transition-all active:scale-95 text-sm"
               >
                 Apply Filters
               </Button>

@@ -553,14 +553,14 @@ export function SeatSelectionClient({ scheduleId }: SeatSelectionClientProps) {
             className="fixed inset-0" 
             onClick={() => setShowMobileSummary(false)} 
           />
-          <div className="relative bg-white rounded-t-[24px] border-t border-slate-200 p-4 space-y-3 shadow-2xl max-h-[85vh] overflow-y-auto z-50">
+          <div className="relative bg-white rounded-t-[28px] border-t border-slate-200 px-6 pt-3 pb-[calc(24px+env(safe-area-inset-bottom,0px))] space-y-3.5 shadow-2xl max-h-[85vh] overflow-y-auto z-50">
             {/* Grab handle */}
-            <div className="w-10 h-1 bg-slate-200 rounded-full mx-auto mb-2" onClick={() => setShowMobileSummary(false)} />
+            <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-2 cursor-pointer" onClick={() => setShowMobileSummary(false)} />
             <div className="flex justify-between items-center pb-2 border-b border-slate-100">
-              <span className="text-xs font-black text-slate-800 uppercase tracking-wider">Trip Summary details</span>
+              <span className="text-xs font-black text-slate-800 uppercase tracking-wider">Trip Summary</span>
               <button 
                 onClick={() => setShowMobileSummary(false)} 
-                className="text-[10px] font-black text-indigo-650 hover:underline cursor-pointer"
+                className="text-xs font-bold text-indigo-650 hover:underline cursor-pointer"
               >
                 Close
               </button>
