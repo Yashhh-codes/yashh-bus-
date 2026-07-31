@@ -158,6 +158,11 @@ export const reservationService = {
 
   // Fetch individual trip properties
   getTripDetails: async (scheduleId: string): Promise<PassengerSchedule | null> => {
+    if (scheduleId.startsWith('MOCK-')) {
+      const { searchRepository } = require('@/features/search/services/search-repository');
+      const mockSch = await searchRepository.getScheduleById(scheduleId);
+      return mockSch as any;
+    }
     const sch = await scheduleService.getById(scheduleId);
     if (!sch) return null;
     const route = await routeService.getById(sch.routeId);
@@ -211,6 +216,52 @@ export const reservationService = {
     otherSpecialRequest?: string;
     passengersList?: Array<{ name: string; age: string; gender: string }>;
   }): Promise<Booking> => {
+    if (data.scheduleId.startsWith('MOCK-')) {
+      const { searchRepository, saveMockBookedSeats } = require('@/features/search/services/search-repository');
+      const tripDetails = await searchRepository.getScheduleById(data.scheduleId);
+      if (!tripDetails) {
+        throw new Error("Invalid schedule trip.");
+      }
+
+      // Check conflicts against confirmed bookings
+      const conflicts = data.selectedSeats.some(s => tripDetails.bookedSeats.includes(s));
+      if (conflicts) {
+        throw new Error("One or more selected seats have already been booked.");
+      }
+
+      const passengersMapped = (data.passengersList || []).map((p, idx) => ({
+        name: p.name.trim(),
+        age: p.age.trim(),
+        gender: p.gender,
+        seatNumber: data.selectedSeats[idx] || '',
+      }));
+
+      const newBooking = await bookingService.create({
+        userId: data.userId,
+        passengerName: data.passengerName,
+        phoneNumber: data.phoneNumber,
+        email: data.email,
+        whatsAppUpdates: data.whatsAppUpdates,
+        scheduleId: data.scheduleId,
+        seats: data.selectedSeats.length,
+        selectedSeats: data.selectedSeats,
+        amount: data.amount,
+        paymentStatus: 'Paid',
+        bookingStatus: 'Confirmed',
+        gstEnabled: data.gstEnabled,
+        gstNumber: data.gstNumber,
+        companyName: data.companyName,
+        specialRequests: data.specialRequests,
+        otherSpecialRequest: data.otherSpecialRequest,
+        passengers: passengersMapped,
+      });
+
+      await seatLockService.releaseAllUserLocks(data.scheduleId, data.userId || data.phoneNumber);
+      saveMockBookedSeats(data.scheduleId, data.selectedSeats);
+
+      return newBooking;
+    }
+
     const sch = await scheduleService.getById(data.scheduleId);
     if (!sch || sch.status !== 'Active') {
       throw new Error("This schedule is inactive and cannot be booked.");

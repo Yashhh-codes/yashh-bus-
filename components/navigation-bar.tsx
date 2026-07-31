@@ -61,41 +61,56 @@ export function NavigationBar() {
 
         {/* Right Action */}
         <div className="flex items-center space-x-2.5">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="relative h-9 w-9 rounded-full border border-slate-200 bg-slate-50 p-0 overflow-hidden shadow-inner cursor-pointer flex items-center justify-center">
-              {user?.photoURL ? (
-                <img src={user.photoURL} alt={user.displayName} className="h-full w-full object-cover" />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center bg-indigo-100 font-bold text-indigo-700 text-xs uppercase">
-                  {user?.displayName ? user.displayName.substring(0, 2) : 'US'}
-                </div>
-              )}
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end">
-              <DropdownMenuGroup>
-                <DropdownMenuLabel className="font-normal">
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-bold leading-none text-slate-900">{user?.displayName}</p>
-                    <p className="text-xs leading-none text-slate-500">{user?.email}</p>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="relative h-9 w-9 rounded-full border border-slate-200 bg-slate-50 p-0 overflow-hidden shadow-inner cursor-pointer flex items-center justify-center">
+                {user.photoURL ? (
+                  <img src={user.photoURL} alt={user.displayName} className="h-full w-full object-cover" />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-indigo-100 font-bold text-indigo-700 text-xs uppercase">
+                    {user.displayName ? user.displayName.substring(0, 2) : 'US'}
                   </div>
-                </DropdownMenuLabel>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem render={<Link href="/profile" className="w-full flex items-center cursor-pointer" />}>
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem render={<Link href="/settings" className="w-full flex items-center cursor-pointer" />}>
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={signOutUser} className="text-red-600 focus:text-red-700 cursor-pointer">
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Log Out</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                )}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end">
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-bold leading-none text-slate-900">{user.displayName}</p>
+                      <p className="text-xs leading-none text-slate-500">{user.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem render={<Link href="/profile" className="w-full flex items-center cursor-pointer" />}>
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Profile</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem render={<Link href="/settings" className="w-full flex items-center cursor-pointer" />}>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={signOutUser} className="text-red-650 focus:text-red-700 cursor-pointer">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log Out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <div className="hidden md:flex items-center space-x-2">
+              <Link href="/login">
+                <Button variant="ghost" className="text-slate-600 hover:text-indigo-600 text-xs font-semibold transition-all px-3 h-9 rounded-full cursor-pointer">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all px-4.5 h-9 rounded-full cursor-pointer shadow-sm">
+                  Get Started
+                </Button>
+              </Link>
+            </div>
+          )}
 
           {/* Mobile Hamburger menu */}
           <button 
@@ -134,6 +149,20 @@ export function NavigationBar() {
                 </Link>
               );
             })}
+            {!user && (
+              <div className="border-t border-slate-100/80 pt-3 mt-3 flex flex-col space-y-2">
+                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="w-full">
+                  <Button variant="outline" className="w-full h-10 rounded-xl text-slate-700 font-bold border-slate-200 cursor-pointer">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/register" onClick={() => setIsMobileMenuOpen(false)} className="w-full">
+                  <Button className="w-full h-10 bg-indigo-600 text-white font-bold hover:bg-indigo-700 rounded-xl cursor-pointer">
+                    Get Started
+                  </Button>
+                </Link>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

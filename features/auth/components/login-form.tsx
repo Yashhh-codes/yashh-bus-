@@ -12,7 +12,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { KeyRound, Mail, ArrowRight, Loader2 } from 'lucide-react';
 import { useAuth } from '@/providers/auth-provider';
 
@@ -20,7 +20,10 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { signInWithGoogle } = useAuth();
+
+  const redirectTo = searchParams.get('redirectTo');
 
   const { register, handleSubmit, formState: { errors } } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
@@ -35,7 +38,7 @@ export function LoginForm() {
     try {
       await authService.login(data);
       toast.success('Logged in successfully!');
-      router.push('/home');
+      router.push(redirectTo || '/home');
     } catch (error: any) {
       console.error(error);
       let errorMessage = 'Invalid email or password.';
@@ -52,7 +55,7 @@ export function LoginForm() {
     try {
       await signInWithGoogle();
       toast.success('Signed in with Google!');
-      router.push('/home');
+      router.push(redirectTo || '/home');
     } catch (error: any) {
       if (error?.code === 'auth/popup-closed-by-user') {
         console.warn('Google Sign-In popup closed by user.');

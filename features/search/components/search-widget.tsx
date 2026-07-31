@@ -10,7 +10,7 @@ import { ArrowLeftRight, Calendar, MapPin, Search, ChevronLeft, ChevronRight } f
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const LOCATIONS = ['Swargate', 'Hinjewadi', 'Kothrud', 'Hadapsar', 'Viman Nagar'];
+const LOCATIONS = ['Pune', 'Mumbai', 'Kolhapur', 'Nashik', 'Nagpur', 'Goa', 'Bengaluru', 'Hyderabad'];
 
 export function SearchWidget() {
   const router = useRouter();

@@ -9,7 +9,7 @@ import {
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db, googleProvider, IS_MOCK_MODE } from '@/lib/firebase';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 export interface UserProfile {
   uid: string;
@@ -38,7 +38,7 @@ const AuthContext = createContext<AuthContextType>({
   signInWithGoogle: async () => {},
 });
 
-const PUBLIC_PATHS = ['/', '/login', '/register', '/forgot-password'];
+const PUBLIC_PATHS = ['/', '/login', '/register', '/forgot-password', '/search'];
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -46,6 +46,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (IS_MOCK_MODE) {
@@ -117,15 +118,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (!loading) {
-      const isPublicPath = PUBLIC_PATHS.includes(pathname) || pathname.startsWith('/dashboard');
+    if (!loading && pathname) {
+      const normalizedPath = pathname.endsWith('/') && pathname !== '/' ? pathname.slice(0, -1) : pathname;
+      const isPublicPath = PUBLIC_PATHS.includes(normalizedPath) || normalizedPath.startsWith('/dashboard') || normalizedPath.startsWith('/search');
+      console.log('AUTH_PROVIDER_GUARD:', {
+        pathname,
+        normalizedPath,
+        isPublicPath,
+        firebaseUser: !!firebaseUser,
+        loading
+      });
       if (!firebaseUser && !isPublicPath) {
-        router.push('/login');
-      } else if (firebaseUser && isPublicPath && pathname !== '/' && !pathname.startsWith('/dashboard')) {
-        router.push('/home');
+        const searchStr = searchParams.toString();
+        const fullPath = searchStr ? `${pathname}?${searchStr}` : pathname;
+        router.push(`/login?redirectTo=${encodeURIComponent(fullPath)}`);
+      } else if (firebaseUser && isPublicPath && normalizedPath !== '/' && !normalizedPath.startsWith('/dashboard') && !normalizedPath.startsWith('/search')) {
+        const redirectTo = searchParams.get('redirectTo');
+        if (redirectTo) {
+          router.push(redirectTo);
+        } else {
+          router.push('/home');
+        }
       }
     }
-  }, [firebaseUser, loading, pathname, router]);
+  }, [firebaseUser, loading, pathname, searchParams, router]);
 
   const signOutUser = async () => {
     if (IS_MOCK_MODE) {

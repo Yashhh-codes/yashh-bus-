@@ -4,9 +4,11 @@ import React from 'react';
 import { useAuth } from '@/providers/auth-provider';
 import { NavigationBar } from '@/components/navigation-bar';
 import { Loader2, Bus } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const { firebaseUser, loading } = useAuth();
+  const pathname = usePathname();
 
   if (loading) {
     return (
@@ -24,7 +26,15 @@ export default function ProtectedLayout({ children }: { children: React.ReactNod
     );
   }
 
-  if (!firebaseUser) {
+  if (!pathname) return null;
+
+  const normalizedPath = pathname.endsWith('/') && pathname !== '/' ? pathname.slice(0, -1) : pathname;
+  console.log('PROTECTED_LAYOUT_GUARD:', {
+    pathname,
+    normalizedPath,
+    firebaseUser: !!firebaseUser
+  });
+  if (!firebaseUser && !normalizedPath.startsWith('/search')) {
     return null;
   }
 

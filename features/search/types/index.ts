@@ -43,6 +43,11 @@ export interface Bus {
     unavailableSeats: string[];
   };
   amenities: string[];
+  operator?: string;
+  name?: string;
+  rating?: number;
+  isAc?: boolean;
+  isSleeper?: boolean;
 }
 
 export interface Schedule {
@@ -56,4 +61,6 @@ export interface Schedule {
   bookedSeats: string[];
   route?: Route;
   bus?: Bus;
+  availableSeats?: number;
+  status?: string;
 }

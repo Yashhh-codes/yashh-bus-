@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 
-const LOCATIONS = ['Swargate', 'Hinjewadi', 'Kothrud', 'Hadapsar', 'Viman Nagar'];
+const LOCATIONS = ['Pune', 'Mumbai', 'Kolhapur', 'Nashik', 'Nagpur', 'Goa', 'Bengaluru', 'Hyderabad'];
 
 const searchSchema = z.object({
   from: z.string().min(1, "Please select departure location"),
@@ -20,6 +20,14 @@ const searchSchema = z.object({
 }).refine(data => data.from !== data.to, {
   message: "Origin and destination cannot be the same",
   path: ["to"],
+}).refine(data => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const travelDate = new Date(data.date + 'T00:00:00');
+  return travelDate >= today;
+}, {
+  message: "Travel date cannot be in the past",
+  path: ["date"],
 });
 
 type SearchFormValues = z.infer<typeof searchSchema>;
@@ -50,8 +58,8 @@ export default function LandingPage() {
   };
 
   const onSubmit = (data: SearchFormValues) => {
-    // Redirect public guest searches to login/register flow carrying search parameters
-    router.push(`/register?from=${encodeURIComponent(data.from)}&to=${encodeURIComponent(data.to)}&date=${data.date}&passengers=${data.passengers}`);
+    // Redirect to public search page
+    router.push(`/search?from=${encodeURIComponent(data.from)}&to=${encodeURIComponent(data.to)}&date=${data.date}&passengers=${data.passengers}`);
   };
 
   useEffect(() => {
@@ -399,7 +407,7 @@ export default function LandingPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
             {/* From Select */}
-            <div className="md:col-span-4 space-y-2">
+            <div className="md:col-span-3 space-y-2">
               <label className="text-[11px] md:text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">From</label>
               <div className="relative group">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600">
@@ -411,7 +419,7 @@ export default function LandingPage() {
                   className="w-full pl-12 pr-10 h-12 md:h-14 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1A365D] text-slate-800 appearance-none cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
                   {...register('from')}
                 >
-                  <option value="" disabled>e.g. Swargate</option>
+                  <option value="" disabled>e.g. Pune</option>
                   {LOCATIONS.map(loc => (
                     <option key={loc} value={loc} disabled={toVal === loc}>{loc}</option>
                   ))}
@@ -441,7 +449,7 @@ export default function LandingPage() {
             </div>
 
             {/* To Select */}
-            <div className="md:col-span-4 space-y-2">
+            <div className="md:col-span-3 space-y-2">
               <label className="text-[11px] md:text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">To</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600">
@@ -453,7 +461,7 @@ export default function LandingPage() {
                   className="w-full pl-12 pr-10 h-12 md:h-14 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1A365D] text-slate-800 appearance-none cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
                   {...register('to')}
                 >
-                  <option value="" disabled>e.g. Kothrud</option>
+                  <option value="" disabled>e.g. Mumbai</option>
                   {LOCATIONS.map(loc => (
                     <option key={loc} value={loc} disabled={fromVal === loc}>{loc}</option>
                   ))}
@@ -484,6 +492,30 @@ export default function LandingPage() {
                 />
               </div>
               {errors.date && <p className="text-xs text-red-500 font-medium ml-1">{errors.date.message}</p>}
+            </div>
+
+            {/* Passengers Select */}
+            <div className="md:col-span-2 space-y-2">
+              <label className="text-[11px] md:text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">Passengers</label>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600">
+                  <Users className="h-5 w-5" />
+                </span>
+                <select 
+                  className="w-full pl-12 pr-10 h-12 md:h-[56px] bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-[#1A365D] text-slate-800 appearance-none cursor-pointer text-[15px] md:text-sm font-semibold transition-all focus:outline-none"
+                  {...register('passengers')}
+                >
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                    <option key={n} value={String(n)}>{n} {n === 1 ? 'Passenger' : 'Passengers'}</option>
+                  ))}
+                </select>
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 9l-7 7-7-7" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
+                  </svg>
+                </span>
+              </div>
+              {errors.passengers && <p className="text-xs text-red-500 font-medium ml-1">{errors.passengers.message}</p>}
             </div>
 
             {/* Search Submit Button */}

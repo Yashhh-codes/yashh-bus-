@@ -12,12 +12,15 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { KeyRound, Mail, User, Phone, ArrowRight, Loader2 } from 'lucide-react';
 
 export function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const redirectTo = searchParams.get('redirectTo');
 
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
@@ -35,7 +38,7 @@ export function RegisterForm() {
     try {
       await authService.register(data);
       toast.success('Account created successfully!');
-      router.push('/home');
+      router.push(redirectTo || '/home');
     } catch (error: any) {
       console.error(error);
       let errorMessage = 'Failed to create account.';

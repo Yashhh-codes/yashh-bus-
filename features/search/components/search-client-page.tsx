@@ -20,6 +20,9 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bus, Calendar, Users, SlidersHorizontal, Info, Compass, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useAuth } from '@/providers/auth-provider';
+import { toast } from 'sonner';
 
 interface SearchClientPageProps {
   from: string;
@@ -29,10 +32,21 @@ interface SearchClientPageProps {
 }
 
 export function SearchClientPage({ from, to, date, passengers }: SearchClientPageProps) {
-  const [currentPassengers, setCurrentPassengers] = useState<number>(passengers || 1);
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
-  const [maxPrice, setMaxPrice] = useState<number>(2500);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const { firebaseUser } = useAuth();
+
+  // Read initial states from searchParams, with fallbacks
+  const currentPassengers = Number(searchParams.get('passengers')) || passengers || 1;
+  const selectedTypes = useMemo(() => searchParams.get('types')?.split(',').filter(Boolean) || [], [searchParams]);
+  const selectedTimes = useMemo(() => searchParams.get('times')?.split(',').filter(Boolean) || [], [searchParams]);
+  const maxPrice = Number(searchParams.get('maxPrice')) || 2500;
+  const selectedOperators = useMemo(() => searchParams.get('operators')?.split(',').filter(Boolean) || [], [searchParams]);
+  const selectedAcTypes = useMemo(() => searchParams.get('acTypes')?.split(',').filter(Boolean) || [], [searchParams]); // 'ac', 'non-ac'
+  const selectedSeatTypes = useMemo(() => searchParams.get('seatTypes')?.split(',').filter(Boolean) || [], [searchParams]); // 'sleeper', 'seater'
+  const showAvailableOnly = searchParams.get('availableOnly') === 'true';
+
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   const { data: schedules = [], isLoading, error, refetch } = useQuery<Schedule[]>({
@@ -40,6 +54,22 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
     queryFn: () => searchService.getSchedules(from, to, date),
     staleTime: 60 * 1000,
   });
+
+  const updateUrl = (newParams: Record<string, string | string[] | number | boolean | null>) => {
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    
+    Object.entries(newParams).forEach(([key, value]) => {
+      if (value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0)) {
+        current.delete(key);
+      } else if (Array.isArray(value)) {
+        current.set(key, value.join(','));
+      } else {
+        current.set(key, String(value));
+      }
+    });
+
+    router.replace(`${pathname}?${current.toString()}`, { scroll: false });
+  };
 
   const parseTime = (timeStr: string): number => {
     const [time, modifier] = timeStr.split(' ');
@@ -62,23 +92,103 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
       if (selectedTimes.length > 0) {
         const departureMins = parseTime(schedule.departureTime);
         const matchesTime = selectedTimes.some(slot => {
-          if (slot === 'Morning') return departureMins >= 0 && departureMins < 720;
+          if (slot === 'Morning') return departureMins >= 360 && departureMins < 720;
           if (slot === 'Afternoon') return departureMins >= 720 && departureMins < 1020;
           if (slot === 'Evening') return departureMins >= 1020 && departureMins < 1440;
           return false;
         });
         if (!matchesTime) return false;
       }
+      if (selectedOperators.length > 0 && schedule.bus?.operator && !selectedOperators.includes(schedule.bus.operator)) {
+        return false;
+      }
+      if (selectedAcTypes.length > 0 && schedule.bus) {
+        const isAcStr = schedule.bus.isAc ? 'ac' : 'non-ac';
+        if (!selectedAcTypes.includes(isAcStr)) {
+          return false;
+        }
+      }
+      if (selectedSeatTypes.length > 0 && schedule.bus) {
+        const seatStr = schedule.bus.isSleeper ? 'sleeper' : 'seater';
+        if (!selectedSeatTypes.includes(seatStr)) {
+          return false;
+        }
+      }
+      if (showAvailableOnly) {
+        const avail = schedule.availableSeats ?? (schedule.bus ? schedule.bus.capacity - schedule.bookedSeats.length : 0);
+        if (avail === 0) {
+          return false;
+        }
+      }
       return true;
     });
-  }, [schedules, selectedTypes, selectedTimes, maxPrice]);
+  }, [schedules, selectedTypes, selectedTimes, maxPrice, selectedOperators, selectedAcTypes, selectedSeatTypes, showAvailableOnly]);
+
+  const uniqueOperators = useMemo(() => {
+    const ops = new Set<string>();
+    schedules.forEach(s => {
+      if (s.bus?.operator) ops.add(s.bus.operator);
+    });
+    return Array.from(ops);
+  }, [schedules]);
 
   const handleTypeChange = (type: string, checked: boolean) => {
-    setSelectedTypes(prev => checked ? [...prev, type] : prev.filter(t => t !== type));
+    const next = checked ? [...selectedTypes, type] : selectedTypes.filter(t => t !== type);
+    updateUrl({ types: next });
   };
 
   const handleTimeChange = (time: string, checked: boolean) => {
-    setSelectedTimes(prev => checked ? [...prev, time] : prev.filter(t => t !== time));
+    const next = checked ? [...selectedTimes, time] : selectedTimes.filter(t => t !== time);
+    updateUrl({ times: next });
+  };
+
+  const handleOperatorChange = (op: string, checked: boolean) => {
+    const next = checked ? [...selectedOperators, op] : selectedOperators.filter(o => o !== op);
+    updateUrl({ operators: next });
+  };
+
+  const handleAcTypeChange = (acType: string, checked: boolean) => {
+    const next = checked ? [...selectedAcTypes, acType] : selectedAcTypes.filter(a => a !== acType);
+    updateUrl({ acTypes: next });
+  };
+
+  const handleSeatTypeChange = (seatType: string, checked: boolean) => {
+    const next = checked ? [...selectedSeatTypes, seatType] : selectedSeatTypes.filter(s => s !== seatType);
+    updateUrl({ seatTypes: next });
+  };
+
+  const handleMaxPriceChange = (val: number) => {
+    updateUrl({ maxPrice: val });
+  };
+
+  const handlePassengersChange = (val: number) => {
+    updateUrl({ passengers: val });
+  };
+
+  const handleAvailableOnlyChange = (checked: boolean) => {
+    updateUrl({ availableOnly: checked ? 'true' : null });
+  };
+
+  const handleResetFilters = () => {
+    updateUrl({
+      types: null,
+      times: null,
+      maxPrice: null,
+      operators: null,
+      acTypes: null,
+      seatTypes: null,
+      availableOnly: null
+    });
+  };
+
+  const handleSelectSeats = (scheduleId: string) => {
+    const bookingPath = `/booking/${scheduleId}/seats?passengers=${currentPassengers}`;
+    if (!firebaseUser) {
+      toast.info('Please sign in to select seats and book your tickets.');
+      router.push(`/login?redirectTo=${encodeURIComponent(bookingPath)}`);
+    } else {
+      router.push(bookingPath);
+    }
   };
 
   // Resuable Filters content to satisfy anti-duplication principles
@@ -90,7 +200,7 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
           Filters
         </h3>
         <button 
-          onClick={() => { setSelectedTypes([]); setSelectedTimes([]); setMaxPrice(2500); }}
+          onClick={handleResetFilters}
           className="text-xs text-indigo-600 font-bold hover:underline cursor-pointer"
         >
           Reset All
@@ -101,22 +211,74 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
       <div className="space-y-3">
         <div className="flex justify-between items-center text-xs">
           <Label className="font-bold text-slate-500 uppercase tracking-wider">Max Price</Label>
-          <span className="font-bold text-indigo-600">INR {maxPrice}</span>
+          <span className="font-bold text-indigo-650">INR {maxPrice}</span>
         </div>
         <input
           type="range"
-          min="500"
+          min="400"
           max="2500"
           step="50"
           value={maxPrice}
-          onChange={(e) => setMaxPrice(Number(e.target.value))}
-          className="w-full accent-indigo-600 h-1.5 bg-slate-100 rounded-lg cursor-pointer"
+          onChange={(e) => handleMaxPriceChange(Number(e.target.value))}
+          className="w-full accent-indigo-650 h-1.5 bg-slate-105 rounded-lg cursor-pointer"
         />
       </div>
 
-      {/* Bus Type */}
+      {/* Available Seats Only */}
       <div className="space-y-3">
-        <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Bus Type</Label>
+        <div className="flex items-center space-x-2.5">
+          <Checkbox 
+            id="available-only"
+            checked={showAvailableOnly}
+            onCheckedChange={(checked) => handleAvailableOnlyChange(!!checked)}
+          />
+          <Label htmlFor="available-only" className="text-sm font-semibold text-slate-700 cursor-pointer">Show Available Only</Label>
+        </div>
+      </div>
+
+      {/* AC / Non-AC */}
+      <div className="space-y-3">
+        <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">AC / Non-AC</Label>
+        <div className="space-y-2">
+          {[
+            { label: 'AC', val: 'ac' },
+            { label: 'Non-AC', val: 'non-ac' },
+          ].map((item) => (
+            <div key={item.val} className="flex items-center space-x-2.5">
+              <Checkbox 
+                id={`ac-${item.val}`}
+                checked={selectedAcTypes.includes(item.val)}
+                onCheckedChange={(checked) => handleAcTypeChange(item.val, !!checked)}
+              />
+              <Label htmlFor={`ac-${item.val}`} className="text-sm font-semibold text-slate-700 cursor-pointer">{item.label}</Label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Sleeper / Seater */}
+      <div className="space-y-3">
+        <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Seat Type</Label>
+        <div className="space-y-2">
+          {[
+            { label: 'Sleeper', val: 'sleeper' },
+            { label: 'Seater', val: 'seater' },
+          ].map((item) => (
+            <div key={item.val} className="flex items-center space-x-2.5">
+              <Checkbox 
+                id={`seat-${item.val}`}
+                checked={selectedSeatTypes.includes(item.val)}
+                onCheckedChange={(checked) => handleSeatTypeChange(item.val, !!checked)}
+              />
+              <Label htmlFor={`seat-${item.val}`} className="text-sm font-semibold text-slate-700 cursor-pointer">{item.label}</Label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Comfort Class */}
+      <div className="space-y-3">
+        <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Comfort Class</Label>
         <div className="space-y-2">
           {['Standard', 'Luxury', 'Super Luxury'].map((type) => (
             <div key={type} className="flex items-center space-x-2.5">
@@ -131,7 +293,7 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
         </div>
       </div>
 
-      {/* Time Slots */}
+      {/* Departure Time */}
       <div className="space-y-3">
         <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Departure Time</Label>
         <div className="space-y-2">
@@ -151,6 +313,25 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
           ))}
         </div>
       </div>
+
+      {/* Operators */}
+      {uniqueOperators.length > 0 && (
+        <div className="space-y-3">
+          <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Operator</Label>
+          <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+            {uniqueOperators.map((op) => (
+              <div key={op} className="flex items-center space-x-2.5">
+                <Checkbox 
+                  id={`operator-${op}`}
+                  checked={selectedOperators.includes(op)}
+                  onCheckedChange={(checked) => handleOperatorChange(op, !!checked)}
+                />
+                <Label htmlFor={`operator-${op}`} className="text-sm font-semibold text-slate-700 cursor-pointer">{op}</Label>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 
@@ -179,7 +360,7 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
                 <span className="font-bold text-[10px] md:text-xs mr-1">Passengers:</span>
                 <button
                   type="button"
-                  onClick={() => setCurrentPassengers(prev => Math.max(1, prev - 1))}
+                  onClick={() => handlePassengersChange(Math.max(1, currentPassengers - 1))}
                   className="w-5 h-5 flex items-center justify-center bg-indigo-800 hover:bg-indigo-700 rounded text-white font-extrabold text-[10px] md:text-xs cursor-pointer"
                 >
                   -
@@ -187,7 +368,7 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
                 <span className="font-extrabold text-[10px] md:text-xs text-white px-1.5 min-w-[12px] text-center">{currentPassengers}</span>
                 <button
                   type="button"
-                  onClick={() => setCurrentPassengers(prev => Math.min(10, prev + 1))}
+                  onClick={() => handlePassengersChange(Math.min(10, currentPassengers + 1))}
                   className="w-5 h-5 flex items-center justify-center bg-indigo-800 hover:bg-indigo-700 rounded text-white font-extrabold text-[10px] md:text-xs cursor-pointer"
                 >
                   +
@@ -261,13 +442,18 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
                 animate={{ opacity: 1 }}
                 className="flex flex-col items-center justify-center py-16 bg-white border border-slate-200/60 rounded-3xl shadow-sm text-center px-6"
               >
-                <div className="p-4 bg-indigo-50 rounded-full text-indigo-600 mb-4">
-                  <Compass className="h-8 w-8 animate-spin-slow" />
+                <div className="p-4 bg-indigo-50 rounded-full text-indigo-650 mb-4 animate-bounce">
+                  <Compass className="h-10 w-10 text-indigo-600" />
                 </div>
-                <h3 className="text-lg font-bold text-slate-900">No schedules match your filters</h3>
-                <p className="text-sm text-slate-500 max-w-sm mt-1">
-                  Try adjusting your price threshold, switching bus types, or modifying date selections.
+                <h3 className="text-lg font-bold text-slate-900">No buses available</h3>
+                <p className="text-sm text-slate-500 max-w-sm mt-1 mb-6">
+                  Try a different date or destination, or adjust your filter choices.
                 </p>
+                <Link href="/home">
+                  <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-2 rounded-xl transition-all cursor-pointer shadow-sm">
+                    Modify Search
+                  </Button>
+                </Link>
               </motion.div>
             ) : (
               <div className="space-y-4">
@@ -281,6 +467,23 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
                     transition={{ type: 'spring', stiffness: 120, damping: 14 }}
                   >
                     <Card className="border-slate-200/80 hover:border-slate-300 shadow-sm hover:shadow-md transition-all overflow-hidden bg-white">
+                      
+                      {/* Operator, Bus Name & Rating Header (Premium look) */}
+                      <div className="bg-slate-50/50 border-b border-slate-100 px-5 py-3 md:px-6 flex items-center justify-between gap-4">
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                          <span className="text-sm font-extrabold text-slate-900">
+                            {schedule.bus?.operator || 'Express Operator'}
+                          </span>
+                          <span className="text-xs font-semibold text-slate-500">
+                            {schedule.bus?.name || 'Premium Coach'}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1 text-xs font-extrabold text-amber-500 bg-amber-50 border border-amber-200/60 px-2.5 py-1 rounded-full shadow-inner select-none shrink-0">
+                          <span className="text-amber-500 font-extrabold leading-none">★</span>
+                          <span>{schedule.bus?.rating ? schedule.bus.rating.toFixed(1) : '4.2'}</span>
+                        </div>
+                      </div>
+
                       <div className="p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
                         
                         {/* Travel Timings & Route details (responsive flex reflow) */}
@@ -340,6 +543,9 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
                           <div className="text-left md:text-right">
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Per Seat</span>
                             <span className="text-lg md:text-xl font-black text-amber-500">INR {schedule.seatPriceLkr}</span>
+                            <span className="text-[10px] font-bold text-emerald-600 block mt-0.5 select-none">
+                              {schedule.availableSeats ?? 30} Seats Available
+                            </span>
                           </div>
 
                           <div className="flex items-center space-x-2">
@@ -381,11 +587,12 @@ export function SearchClientPage({ from, to, date, passengers }: SearchClientPag
                               </DialogContent>
                             </Dialog>
 
-                            <Link href={`/booking/${schedule.id}/seats?passengers=${currentPassengers}`} className="flex-1 md:flex-initial">
-                              <Button className="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md cursor-pointer transition-all active:scale-98 text-xs py-5 px-5">
-                                Select Seats
-                              </Button>
-                            </Link>
+                            <Button 
+                              onClick={() => handleSelectSeats(schedule.id)}
+                              className="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md cursor-pointer transition-all active:scale-98 text-xs py-5 px-5"
+                            >
+                              Select Seats
+                            </Button>
                           </div>
                         </div>
 
