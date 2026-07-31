@@ -32,13 +32,15 @@ interface BusSummaryCardProps {
   selectedSeats: string[];
   selectedBoarding?: BoardingDroppingPoint | null;
   selectedDropping?: BoardingDroppingPoint | null;
+  passengerCount?: number;
 }
 
 export function BusSummaryCard({
   schedule,
   selectedSeats,
   selectedBoarding,
-  selectedDropping
+  selectedDropping,
+  passengerCount
 }: BusSummaryCardProps) {
   const { bus, route } = schedule;
 
@@ -180,6 +182,24 @@ export function BusSummaryCard({
 
       {/* Selected Seats summary & Fare breakdown */}
       <div className="space-y-2">
+        {passengerCount !== undefined && (
+          <div className="space-y-1 bg-slate-50 border border-slate-100/70 p-2.5 rounded-xl text-[10px] mb-2">
+            <div className="flex justify-between items-center text-slate-500 font-bold">
+              <span>Target Passengers</span>
+              <span className="text-slate-805 font-black">{passengerCount}</span>
+            </div>
+            <div className="flex justify-between items-center text-slate-500 font-bold">
+              <span>Seats Selected</span>
+              <span className="text-slate-805 font-black">{selectedSeats.length}</span>
+            </div>
+            <div className="flex justify-between items-center text-slate-500 font-bold">
+              <span>Remaining Seats</span>
+              <span className={selectedSeats.length === passengerCount ? "text-emerald-600 font-black font-sans" : "text-amber-600 font-black font-sans"}>
+                {Math.max(0, passengerCount - selectedSeats.length)}
+              </span>
+            </div>
+          </div>
+        )}
         <div className="flex justify-between items-center text-[10px]">
           <span className="text-slate-400 font-bold uppercase tracking-wider">Seats</span>
           <span className="font-black text-[#1A365D]">

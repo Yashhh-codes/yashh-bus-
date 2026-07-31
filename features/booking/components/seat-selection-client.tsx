@@ -56,13 +56,16 @@ function addMinutesToTimeString(timeStr: string, minsToAdd: number): string {
   }
 }
 
-export function SeatSelectionClient({ scheduleId }: SeatSelectionClientProps) {
+export function SeatSelectionClient({ scheduleId, passengers: initialPassengers = 1 }: SeatSelectionClientProps) {
   const router = useRouter();
   const { user } = useAuth();
 
   // Step Wizard state
   const [step, setStep] = useState<StepId | 'payment_success'>('seats');
   
+  // Passenger count state
+  const [passengerCount, setPassengerCount] = useState<number>(initialPassengers);
+
   // Selected seats & details
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const [selectedBoarding, setSelectedBoarding] = useState<BoardingDroppingPoint | null>(null);
@@ -196,6 +199,37 @@ export function SeatSelectionClient({ scheduleId }: SeatSelectionClientProps) {
   const activeBoarding = selectedBoarding || boardingPoints[0] || null;
   const activeDropping = selectedDropping || droppingPoints[0] || null;
 
+  const handleDecrementPassengerCount = async () => {
+    if (passengerCount <= 1) return;
+    const newCount = passengerCount - 1;
+    setPassengerCount(newCount);
+
+    if (selectedSeats.length > newCount) {
+      const seatsToDeselect = selectedSeats.slice(newCount);
+      const seatsToKeep = selectedSeats.slice(0, newCount);
+
+      setSelectedSeats(seatsToKeep);
+      setPassengersList(prev => prev.slice(0, newCount));
+
+      const userId = user?.uid || user?.phoneNumber || 'anonymous-device';
+      for (const seatId of seatsToDeselect) {
+        try {
+          await seatLockService.releaseLock(scheduleId, seatId, userId);
+        } catch (err) {
+          console.error(`Failed to release lock for seat ${seatId}:`, err);
+        }
+      }
+    }
+  };
+
+  const handleIncrementPassengerCount = () => {
+    if (passengerCount >= 6) {
+      toast.error('Maximum limit of 6 passengers allowed per booking.');
+      return;
+    }
+    setPassengerCount(prev => prev + 1);
+  };
+
   const handleSeatSelect = async (seatId: string) => {
     const isDeselect = selectedSeats.includes(seatId);
     const userId = user?.uid || user?.phoneNumber || 'anonymous-device';
@@ -207,8 +241,8 @@ export function SeatSelectionClient({ scheduleId }: SeatSelectionClientProps) {
       await seatLockService.releaseLock(scheduleId, seatId, userId);
     } else {
       // Selecting seat: attempt to acquire lock
-      if (selectedSeats.length >= 6) {
-        toast.error('You can select a maximum of 6 seats.');
+      if (selectedSeats.length >= passengerCount) {
+        toast.error('Maximum seats selected. Increase the passenger count to select more seats.');
         return;
       }
       
@@ -264,6 +298,10 @@ export function SeatSelectionClient({ scheduleId }: SeatSelectionClientProps) {
     if (step === 'seats') {
       if (selectedSeats.length === 0) {
         toast.error('Please select at least one seat.');
+        return;
+      }
+      if (selectedSeats.length !== passengerCount) {
+        toast.error('Please select seats for all passengers before continuing.');
         return;
       }
       setStep('boarding');
@@ -473,16 +511,65 @@ export function SeatSelectionClient({ scheduleId }: SeatSelectionClientProps) {
           </div>
 
           {step === 'seats' && schedule.bus && (
-            <SeatMap
-              rows={schedule.bus.seatingConfig.rows}
-              columnsPattern={schedule.bus.seatingConfig.layoutPattern}
-              bookedSeats={schedule.bookedSeats || []}
-              unavailableSeats={schedule.bus.seatingConfig.unavailableSeats || []}
-              selectedSeats={selectedSeats}
-              maxSelectable={6}
-              onSeatSelect={handleSeatSelect}
-              busType={schedule.bus.busType}
-            />
+            <div className="space-y-4">
+              {/* Passenger Counter UI */}
+              <div className="bg-white border border-slate-200/60 rounded-[20px] p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="text-center sm:text-left">
+                  <h3 className="text-sm font-extrabold text-slate-900 tracking-tight">Number of Passengers</h3>
+                  <p className="text-[10px] text-slate-400 font-semibold mt-0.5">
+                    Adjust how many seats you want to reserve (Max 6)
+                  </p>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-3 bg-slate-50 border border-slate-200/50 p-1 rounded-xl">
+                    <button
+                      type="button"
+                      disabled={passengerCount <= 1}
+                      onClick={handleDecrementPassengerCount}
+                      className="w-8 h-8 rounded-lg bg-white border border-slate-200/65 flex items-center justify-center font-bold text-slate-700 hover:bg-slate-55 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer mobile-touch-target"
+                      aria-label="Decrease passenger count"
+                    >
+                      -
+                    </button>
+                    <span className="text-xs font-black text-[#1A365D] w-6 text-center">{passengerCount}</span>
+                    <button
+                      type="button"
+                      disabled={passengerCount >= 6}
+                      onClick={handleIncrementPassengerCount}
+                      className="w-8 h-8 rounded-lg bg-white border border-slate-200/65 flex items-center justify-center font-bold text-slate-700 hover:bg-[#1A365D] hover:text-white active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer mobile-touch-target"
+                      aria-label="Increase passenger count"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div className="text-right hidden sm:block">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Selected</span>
+                    <span className="text-xs font-extrabold text-indigo-650">
+                      {selectedSeats.length} / {passengerCount} Seats
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile-only selected status */}
+              <div className="flex sm:hidden justify-between items-center bg-slate-50 border border-slate-100/60 p-3 rounded-[16px] text-xs font-bold text-slate-600">
+                <span>Selected Seats:</span>
+                <span className="font-extrabold text-indigo-600">
+                  {selectedSeats.length} / {passengerCount}
+                </span>
+              </div>
+
+              <SeatMap
+                rows={schedule.bus.seatingConfig.rows}
+                columnsPattern={schedule.bus.seatingConfig.layoutPattern}
+                bookedSeats={schedule.bookedSeats || []}
+                unavailableSeats={schedule.bus.seatingConfig.unavailableSeats || []}
+                selectedSeats={selectedSeats}
+                maxSelectable={passengerCount}
+                onSeatSelect={handleSeatSelect}
+                busType={schedule.bus.busType}
+              />
+            </div>
           )}
 
           {step === 'boarding' && (
@@ -542,6 +629,7 @@ export function SeatSelectionClient({ scheduleId }: SeatSelectionClientProps) {
             selectedSeats={selectedSeats}
             selectedBoarding={activeBoarding}
             selectedDropping={activeDropping}
+            passengerCount={passengerCount}
           />
         </div>
       </div>
@@ -570,6 +658,7 @@ export function SeatSelectionClient({ scheduleId }: SeatSelectionClientProps) {
               selectedSeats={selectedSeats}
               selectedBoarding={activeBoarding}
               selectedDropping={activeDropping}
+              passengerCount={passengerCount}
             />
           </div>
         </div>
