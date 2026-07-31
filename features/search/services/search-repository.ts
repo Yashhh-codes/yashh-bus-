@@ -185,10 +185,10 @@ class MockSearchProvider implements SearchProvider {
     const date = parts[1]; // e.g., 2026-08-01
 
     const routeTimeParts = routeTime.split('-');
-    if (routeTimeParts.length < 2) return null;
+    if (routeTimeParts.length < 3) return null;
 
-    const routeId = `RT-${routeTimeParts[0]}`; // Reconstruct e.g., RT-PM
-    const timeIndex = parseInt(routeTimeParts[1]);
+    const routeId = `${routeTimeParts[0]}-${routeTimeParts[1]}`; // Reconstruct e.g. RT-PM
+    const timeIndex = parseInt(routeTimeParts[2]);
 
     const matchingRoute = MOCK_ROUTES.find(r => r.id === routeId);
     if (!matchingRoute) return null;
