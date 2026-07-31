@@ -12,15 +12,10 @@ export default function ProtectedLayout({ children }: { children: React.ReactNod
 
   if (loading) {
     return (
-      <div className="flex h-screen w-screen flex-col items-center justify-center bg-slate-50">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="p-4 bg-indigo-600 rounded-2xl shadow-xl animate-pulse">
-            <Bus className="h-10 w-10 text-white animate-bounce" />
-          </div>
-          <div className="flex items-center space-x-2 text-indigo-600">
-            <Loader2 className="h-5 w-5 animate-spin" />
-            <span className="text-sm font-bold tracking-wider uppercase">Loading Travel Booking...</span>
-          </div>
+      <div className="flex h-screen w-screen items-center justify-center bg-slate-50 pb-safe pt-safe">
+        <div className="flex flex-col items-center space-y-3">
+          <Loader2 className="h-7 w-7 text-indigo-600 animate-spin" />
+          <span className="text-xs font-bold text-slate-400 tracking-wider uppercase">Loading...</span>
         </div>
       </div>
     );
