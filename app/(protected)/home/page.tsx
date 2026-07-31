@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useAuth } from '@/providers/auth-provider';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -98,7 +98,9 @@ export default function HomePage() {
       {/* Main Bus Search Widget Section */}
       <div className="space-y-4">
         <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Find Schedules</h2>
-        <SearchWidget />
+        <Suspense fallback={<div className="h-20 w-full bg-slate-100/50 rounded-2xl animate-pulse" />}>
+          <SearchWidget />
+        </Suspense>
       </div>
 
       {/* Grid of secondary info: Popular Routes & Notice Board */}

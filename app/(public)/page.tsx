@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -52,7 +52,7 @@ const searchSchema = z.object({
 
 type SearchFormValues = z.infer<typeof searchSchema>;
 
-export default function LandingPage() {
+function LandingPageContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -1332,5 +1332,24 @@ export default function LandingPage() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function LandingPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex h-screen w-screen flex-col items-center justify-center bg-slate-50">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="p-4 bg-indigo-600 rounded-2xl shadow-xl animate-pulse">
+            <Bus className="h-10 w-10 text-white animate-bounce" />
+          </div>
+          <div className="flex items-center space-x-2 text-indigo-600">
+            <span className="text-sm font-bold tracking-wider uppercase">Loading Journey Page...</span>
+          </div>
+        </div>
+      </div>
+    }>
+      <LandingPageContent />
+    </Suspense>
   );
 }

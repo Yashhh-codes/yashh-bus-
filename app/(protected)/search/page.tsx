@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { SearchClientPage } from '@/features/search/components/search-client-page';
 
 interface SearchPageProps {
@@ -18,12 +18,18 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const passengers = Number(params.passengers) || 1;
 
   return (
-    <SearchClientPage 
-      from={from} 
-      to={to} 
-      date={date} 
-      passengers={passengers} 
-    />
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center p-12 bg-white rounded-3xl animate-pulse h-96">
+        <span className="text-sm font-semibold text-slate-400">Loading Search...</span>
+      </div>
+    }>
+      <SearchClientPage 
+        from={from} 
+        to={to} 
+        date={date} 
+        passengers={passengers} 
+      />
+    </Suspense>
   );
 }
 export type { };

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { RegisterForm } from '@/features/auth/components/register-form';
 import { Bus, Clock, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -78,7 +78,9 @@ export default function RegisterPage() {
 
       {/* Right side Pane - Form Panel */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50/50 via-slate-50 to-slate-50">
-        <RegisterForm />
+        <Suspense fallback={<div className="p-8 w-full max-w-md bg-white rounded-3xl animate-pulse h-96" />}>
+          <RegisterForm />
+        </Suspense>
       </div>
     </div>
   );
