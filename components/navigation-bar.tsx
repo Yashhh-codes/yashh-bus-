@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/providers/auth-provider';
-import { Bus, Home, Ticket, Megaphone, User, LogOut, Settings, HelpCircle, MapPin, Menu, X } from 'lucide-react';
+import { Bus, Home, Ticket, Megaphone, User, LogOut, Settings, HelpCircle, MapPin, Menu, X, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -90,6 +90,12 @@ export function NavigationBar() {
                   <Settings className="mr-2 h-4 w-4" />
                   <span>Settings</span>
                 </DropdownMenuItem>
+                {user && (user.role === 'admin' || user.role === 'manager') && (
+                  <DropdownMenuItem render={<Link href="/dashboard" className="w-full flex items-center cursor-pointer font-bold text-indigo-600 focus:text-indigo-700" />}>
+                    <LayoutDashboard className="mr-2 h-4 w-4 text-indigo-500" />
+                    <span>Dashboard Portal</span>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={signOutUser} className="text-red-650 focus:text-red-700 cursor-pointer">
                   <LogOut className="mr-2 h-4 w-4" />
@@ -149,6 +155,15 @@ export function NavigationBar() {
                 </Link>
               );
             })}
+            {user && (user.role === 'admin' || user.role === 'manager') && (
+              <Link 
+                href="/dashboard"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block px-4 py-2.5 text-sm font-bold text-indigo-600 hover:bg-indigo-50/40 rounded-xl transition-all"
+              >
+                Dashboard Portal
+              </Link>
+            )}
             {!user && (
               <div className="border-t border-slate-100/80 pt-3 mt-3 flex flex-col space-y-2">
                 <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="w-full">

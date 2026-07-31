@@ -40,6 +40,7 @@ export function Sidebar({
     { name: 'Buses', href: '/dashboard/buses', icon: Bus },
     { name: 'Schedules', href: '/dashboard/schedules', icon: Calendar },
     { name: 'Settings', href: '/dashboard/settings', icon: Settings },
+    { name: 'Passenger App', href: '/home', icon: ChevronLeft },
   ];
 
   const handleLinkClick = () => {

@@ -17,7 +17,7 @@ export interface UserProfile {
   displayName: string;
   phoneNumber?: string;
   photoURL?: string;
-  role: 'passenger';
+  role: 'passenger' | 'admin' | 'manager';
   createdAt: string;
   updatedAt: string;
 }
