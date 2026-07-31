@@ -6,6 +6,7 @@ import {
   Eye,
   Trash2,
   XCircle,
+  Phone,
 } from 'lucide-react';
 import { PageContainer } from '@/components/dashboard/page-container';
 import { SectionHeader } from '@/components/dashboard/section-header';
@@ -288,7 +289,14 @@ export default function BookingsPage() {
                       <div className="min-w-0">
                         <p className="font-bold text-slate-900 text-sm font-mono">{booking.id}</p>
                         <p className="font-semibold text-slate-700 text-sm mt-0.5">{booking.passengerName}</p>
-                        <p className="text-[11px] text-slate-400 font-mono mt-0.5">{booking.phoneNumber}</p>
+                        <a 
+                          href={`tel:${booking.phoneNumber}`}
+                          className="text-[11px] text-indigo-600 hover:text-indigo-800 font-mono flex items-center gap-1 hover:underline mt-0.5 cursor-pointer w-fit"
+                          title="Call Passenger"
+                        >
+                          <Phone className="h-3 w-3 text-indigo-500" />
+                          {booking.phoneNumber}
+                        </a>
                       </div>
                       <div className="flex flex-col items-end gap-1">
                         <StatusBadge status={booking.bookingStatus} />
@@ -348,8 +356,15 @@ export default function BookingsPage() {
                     <TableCell className="font-semibold text-slate-900">{booking.id}</TableCell>
                     <TableCell>
                       <div className="flex flex-col">
-                        <span className="font-semibold text-slate-800">{booking.passengerName}</span>
-                        <span className="text-xs text-slate-400 font-mono">{booking.phoneNumber}</span>
+                        <span className="font-semibold text-slate-850">{booking.passengerName}</span>
+                        <a 
+                          href={`tel:${booking.phoneNumber}`}
+                          className="text-xs text-indigo-600 hover:text-indigo-800 font-mono flex items-center gap-1 hover:underline mt-0.5 cursor-pointer w-fit"
+                          title="Call Passenger"
+                        >
+                          <Phone className="h-3 w-3 text-indigo-500" />
+                          {booking.phoneNumber}
+                        </a>
                       </div>
                     </TableCell>
                     <TableCell>
@@ -446,9 +461,16 @@ export default function BookingsPage() {
                 <span className="text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Passenger</span>
                 <span className="text-slate-800 font-bold">{selectedBooking.passengerName}</span>
               </div>
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-sm items-center">
                 <span className="text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Phone Number</span>
-                <span className="text-slate-800 font-mono font-semibold">{selectedBooking.phoneNumber}</span>
+                <a 
+                  href={`tel:${selectedBooking.phoneNumber}`}
+                  className="text-indigo-600 hover:text-indigo-800 font-mono font-semibold flex items-center gap-1.5 hover:underline cursor-pointer"
+                  title="Call Passenger"
+                >
+                  <Phone className="h-3.5 w-3.5 text-indigo-500" />
+                  {selectedBooking.phoneNumber}
+                </a>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Route Info</span>
