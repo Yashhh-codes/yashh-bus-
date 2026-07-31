@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { useAuth } from '@/providers/auth-provider';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { SearchWidget } from '@/features/search/components/search-widget';
 import { Megaphone, ArrowRight } from 'lucide-react';

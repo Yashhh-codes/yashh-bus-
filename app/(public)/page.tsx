@@ -6,8 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Bus, Ticket, MapPin, Search, Calendar, ShieldCheck, HelpCircle, Megaphone, 
-  Users, ArrowLeftRight, Menu, X, SlidersHorizontal, Compass, AlertCircle, Info 
+  Bus, Ticket, MapPin, ShieldCheck, HelpCircle, 
+  Users, Menu, X, SlidersHorizontal, Compass, AlertCircle 
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
@@ -26,8 +26,7 @@ import {
   DialogContent, 
   DialogDescription, 
   DialogHeader, 
-  DialogTitle, 
-  DialogTrigger 
+  DialogTitle 
 } from '@/components/ui/dialog';
 
 const LOCATIONS = ['Pune', 'Mumbai', 'Kolhapur', 'Nashik', 'Nagpur', 'Goa', 'Bengaluru', 'Hyderabad'];
