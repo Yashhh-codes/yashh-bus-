@@ -659,11 +659,11 @@ function LandingPageContent() {
 
             {/* Subtitle */}
             <p className="text-xs sm:text-sm md:text-lg lg:text-xl text-slate-655 max-w-[300px] md:max-w-2xl leading-5 md:leading-relaxed font-medium">
-              Discover reliable bus services, comfortable seats, live tracking and instant booking — all in one place.
+              Discover reliable bus services, comfortable seats and instant booking — all in one place.
             </p>
 
             {/* Feature Points */}
-            <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-6 pt-2 max-w-3xl">
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-6 pt-2 max-w-2xl">
               <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-1.5 sm:gap-3">
                 <div className="w-9 h-9 sm:w-11 sm:h-11 shrink-0 bg-white/80 backdrop-blur-xs rounded-xl flex items-center justify-center border border-blue-100 shadow-2xs">
                   <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#0F1E36]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -673,18 +673,6 @@ function LandingPageContent() {
                 <div>
                   <p className="text-[13px] sm:text-base font-extrabold text-slate-800 leading-tight">Premium Seats</p>
                   <p className="text-[11px] sm:text-xs text-slate-550 font-semibold mt-0.5 leading-none sm:leading-normal">Comfort you deserve</p>
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-1.5 sm:gap-3">
-                <div className="w-9 h-9 sm:w-11 sm:h-11 shrink-0 bg-white/80 backdrop-blur-xs rounded-xl flex items-center justify-center border border-orange-100 shadow-2xs">
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-[13px] sm:text-base font-extrabold text-slate-800 leading-tight">Live Tracking</p>
-                  <p className="text-[11px] sm:text-xs text-slate-550 font-semibold mt-0.5 leading-none sm:leading-normal">Track your bus live</p>
                 </div>
               </div>
 
@@ -1128,7 +1116,7 @@ function LandingPageContent() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
-            className="flex overflow-x-auto gap-5 pb-4 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-3 md:gap-8"
+            className="flex overflow-x-auto gap-5 pb-4 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:gap-8 max-w-4xl mx-auto"
           >
             <motion.div variants={itemVariants} className="snap-start min-w-[280px] shrink-0 md:min-w-0 p-6 bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800/80 hover:border-indigo-500/50 hover:bg-slate-900/85 hover:shadow-lg transition-all duration-300 space-y-4">
               <div className="p-3 bg-indigo-500/20 rounded-xl text-indigo-400 w-fit">
@@ -1137,16 +1125,6 @@ function LandingPageContent() {
               <h3 className="text-lg font-bold text-white">Seat selection engine</h3>
               <p className="text-sm text-slate-300 leading-relaxed">
                 Choose seats interactively using our responsive seating engine. Arrangements automatically match bus layouts.
-              </p>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="snap-start min-w-[280px] shrink-0 md:min-w-0 p-6 bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800/80 hover:border-indigo-500/50 hover:bg-slate-900/85 hover:shadow-lg transition-all duration-300 space-y-4">
-              <div className="p-3 bg-indigo-500/20 rounded-xl text-indigo-400 w-fit">
-                <MapPin className="h-6 w-6" />
-              </div>
-              <h3 className="text-lg font-bold text-white">Live Simulation Tracking</h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Track bus runs, preview routes, check estimated arrival times, and set destination alarms to trigger alerts.
               </p>
             </motion.div>
 

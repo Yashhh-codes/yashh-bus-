@@ -25,7 +25,6 @@ export function NavigationBar() {
   const navItems = [
     { name: 'Home', href: '/home', icon: Home },
     { name: 'Tickets', href: '/tickets', icon: Ticket },
-    { name: 'Tracking', href: '/tracking', icon: MapPin },
     { name: 'Notice Board', href: '/announcements', icon: Megaphone },
   ];
 
