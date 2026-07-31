@@ -1,14 +1,34 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bus, Ticket, MapPin, Search, Calendar, ShieldCheck, HelpCircle, Megaphone, Users, ArrowLeftRight, Menu, X } from 'lucide-react';
+import { 
+  Bus, Ticket, MapPin, Search, Calendar, ShieldCheck, HelpCircle, Megaphone, 
+  Users, ArrowLeftRight, Menu, X, SlidersHorizontal, Compass, AlertCircle, Info 
+} from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { useQuery } from '@tanstack/react-query';
+import { searchService } from '@/features/search/services/search-service';
+import { Schedule } from '@/features/search/types';
+import { useAuth } from '@/providers/auth-provider';
+import { toast } from 'sonner';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { Card } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger 
+} from '@/components/ui/dialog';
 
 const LOCATIONS = ['Pune', 'Mumbai', 'Kolhapur', 'Nashik', 'Nagpur', 'Goa', 'Bengaluru', 'Hyderabad'];
 
@@ -34,22 +54,67 @@ type SearchFormValues = z.infer<typeof searchSchema>;
 
 export default function LandingPage() {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const { firebaseUser } = useAuth();
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [rotate, setRotate] = useState(0);
 
+  // Read URL query parameters
+  const fromParam = searchParams.get('from');
+  const toParam = searchParams.get('to');
+  const dateParam = searchParams.get('date');
+  const passengersParam = Number(searchParams.get('passengers')) || 1;
+
+  // Read filter query parameters
+  const selectedTypes = useMemo(() => searchParams.get('types')?.split(',').filter(Boolean) || [], [searchParams]);
+  const selectedTimes = useMemo(() => searchParams.get('times')?.split(',').filter(Boolean) || [], [searchParams]);
+  const maxPrice = Number(searchParams.get('maxPrice')) || 2500;
+  const selectedOperators = useMemo(() => searchParams.get('operators')?.split(',').filter(Boolean) || [], [searchParams]);
+  const selectedAcTypes = useMemo(() => searchParams.get('acTypes')?.split(',').filter(Boolean) || [], [searchParams]); // 'ac', 'non-ac'
+  const selectedSeatTypes = useMemo(() => searchParams.get('seatTypes')?.split(',').filter(Boolean) || [], [searchParams]); // 'sleeper', 'seater'
+  const showAvailableOnly = searchParams.get('availableOnly') === 'true';
+
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  const updateUrl = (newParams: Record<string, string | string[] | number | boolean | null>) => {
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    
+    Object.entries(newParams).forEach(([key, value]) => {
+      if (value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0)) {
+        current.delete(key);
+      } else if (Array.isArray(value)) {
+        current.set(key, value.join(','));
+      } else {
+        current.set(key, String(value));
+      }
+    });
+
+    router.replace(`${pathname}?${current.toString()}`, { scroll: false });
+  };
+
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<SearchFormValues>({
     resolver: zodResolver(searchSchema),
     defaultValues: {
-      from: '',
-      to: '',
-      date: new Date().toISOString().split('T')[0],
-      passengers: '1',
+      from: fromParam || '',
+      to: toParam || '',
+      date: dateParam || new Date().toISOString().split('T')[0],
+      passengers: String(passengersParam),
     }
   });
 
   const fromVal = watch('from');
   const toVal = watch('to');
+
+  // Synchronize form values when search parameters change (e.g. browser navigation)
+  useEffect(() => {
+    if (fromParam) setValue('from', fromParam);
+    if (toParam) setValue('to', toParam);
+    if (dateParam) setValue('date', dateParam);
+    setValue('passengers', String(passengersParam));
+  }, [fromParam, toParam, dateParam, passengersParam, setValue]);
 
   const handleSwap = () => {
     setRotate(prev => prev + 180);
@@ -58,9 +123,289 @@ export default function LandingPage() {
   };
 
   const onSubmit = (data: SearchFormValues) => {
-    // Redirect to public search page
-    router.push(`/search?from=${encodeURIComponent(data.from)}&to=${encodeURIComponent(data.to)}&date=${data.date}&passengers=${data.passengers}`);
+    updateUrl({
+      from: data.from,
+      to: data.to,
+      date: data.date,
+      passengers: data.passengers,
+      // Clear filters on new search submission
+      types: null,
+      times: null,
+      maxPrice: null,
+      operators: null,
+      acTypes: null,
+      seatTypes: null,
+      availableOnly: null
+    });
   };
+
+  const hasSearched = !!(fromParam && toParam && dateParam);
+
+  const { data: schedules = [], isLoading, error, refetch } = useQuery<Schedule[]>({
+    queryKey: ['schedules', fromParam, toParam, dateParam],
+    queryFn: () => searchService.getSchedules(fromParam || '', toParam || '', dateParam || ''),
+    enabled: hasSearched,
+    staleTime: 60 * 1000,
+  });
+
+  const parseTime = (timeStr: string): number => {
+    const [time, modifier] = timeStr.split(' ');
+    const parts = time.split(':').map(Number);
+    let hours = parts[0];
+    const minutes = parts[1];
+    if (modifier === 'PM' && hours < 12) hours += 12;
+    if (modifier === 'AM' && hours === 12) hours = 0;
+    return hours * 60 + minutes;
+  };
+
+  const getFilteredSchedules = useMemo(() => {
+    return schedules.filter(schedule => {
+      if (selectedTypes.length > 0 && schedule.bus && !selectedTypes.includes(schedule.bus.busType)) {
+        return false;
+      }
+      if (schedule.seatPriceLkr > maxPrice) {
+        return false;
+      }
+      if (selectedTimes.length > 0) {
+        const departureMins = parseTime(schedule.departureTime);
+        const matchesTime = selectedTimes.some(slot => {
+          if (slot === 'Morning') return departureMins >= 360 && departureMins < 720;
+          if (slot === 'Afternoon') return departureMins >= 720 && departureMins < 1020;
+          if (slot === 'Evening') return departureMins >= 1020 && departureMins < 1440;
+          return false;
+        });
+        if (!matchesTime) return false;
+      }
+      if (selectedOperators.length > 0 && schedule.bus?.operator && !selectedOperators.includes(schedule.bus.operator)) {
+        return false;
+      }
+      if (selectedAcTypes.length > 0 && schedule.bus) {
+        const isAcStr = schedule.bus.isAc ? 'ac' : 'non-ac';
+        if (!selectedAcTypes.includes(isAcStr)) {
+          return false;
+        }
+      }
+      if (selectedSeatTypes.length > 0 && schedule.bus) {
+        const seatStr = schedule.bus.isSleeper ? 'sleeper' : 'seater';
+        if (!selectedSeatTypes.includes(seatStr)) {
+          return false;
+        }
+      }
+      if (showAvailableOnly) {
+        const avail = schedule.availableSeats ?? (schedule.bus ? schedule.bus.capacity - schedule.bookedSeats.length : 0);
+        if (avail === 0) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }, [schedules, selectedTypes, selectedTimes, maxPrice, selectedOperators, selectedAcTypes, selectedSeatTypes, showAvailableOnly]);
+
+  const uniqueOperators = useMemo(() => {
+    const ops = new Set<string>();
+    schedules.forEach(s => {
+      if (s.bus?.operator) ops.add(s.bus.operator);
+    });
+    return Array.from(ops);
+  }, [schedules]);
+
+  const handleTypeChange = (type: string, checked: boolean) => {
+    const next = checked ? [...selectedTypes, type] : selectedTypes.filter(t => t !== type);
+    updateUrl({ types: next });
+  };
+
+  const handleTimeChange = (time: string, checked: boolean) => {
+    const next = checked ? [...selectedTimes, time] : selectedTimes.filter(t => t !== time);
+    updateUrl({ times: next });
+  };
+
+  const handleOperatorChange = (op: string, checked: boolean) => {
+    const next = checked ? [...selectedOperators, op] : selectedOperators.filter(o => o !== op);
+    updateUrl({ operators: next });
+  };
+
+  const handleAcTypeChange = (acType: string, checked: boolean) => {
+    const next = checked ? [...selectedAcTypes, acType] : selectedAcTypes.filter(a => a !== acType);
+    updateUrl({ acTypes: next });
+  };
+
+  const handleSeatTypeChange = (seatType: string, checked: boolean) => {
+    const next = checked ? [...selectedSeatTypes, seatType] : selectedSeatTypes.filter(s => s !== seatType);
+    updateUrl({ seatTypes: next });
+  };
+
+  const handleMaxPriceChange = (val: number) => {
+    updateUrl({ maxPrice: val });
+  };
+
+  const handleAvailableOnlyChange = (checked: boolean) => {
+    updateUrl({ availableOnly: checked ? 'true' : null });
+  };
+
+  const handleResetFilters = () => {
+    updateUrl({
+      types: null,
+      times: null,
+      maxPrice: null,
+      operators: null,
+      acTypes: null,
+      seatTypes: null,
+      availableOnly: null
+    });
+  };
+
+  const handleSelectSeats = (scheduleId: string) => {
+    const bookingPath = `/booking/${scheduleId}/seats?passengers=${passengersParam}`;
+    if (!firebaseUser) {
+      toast.info('Please sign in to select seats and book your tickets.');
+      router.push(`/login?redirectTo=${encodeURIComponent(bookingPath)}`);
+    } else {
+      router.push(bookingPath);
+    }
+  };
+
+  const renderFilters = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 className="font-bold text-slate-900 text-sm flex items-center">
+          <SlidersHorizontal className="h-4 w-4 mr-2 text-slate-500" />
+          Filters
+        </h3>
+        <button 
+          onClick={handleResetFilters}
+          className="text-xs text-indigo-650 font-bold hover:underline cursor-pointer bg-transparent border-0"
+        >
+          Reset All
+        </button>
+      </div>
+
+      {/* Price Filter */}
+      <div className="space-y-3">
+        <div className="flex justify-between items-center text-xs">
+          <Label className="font-bold text-slate-500 uppercase tracking-wider">Max Price</Label>
+          <span className="font-bold text-indigo-650">INR {maxPrice}</span>
+        </div>
+        <input
+          type="range"
+          min="400"
+          max="2500"
+          step="50"
+          value={maxPrice}
+          onChange={(e) => handleMaxPriceChange(Number(e.target.value))}
+          className="w-full accent-indigo-650 h-1.5 bg-slate-100 rounded-lg cursor-pointer"
+        />
+      </div>
+
+      {/* Available Seats Only */}
+      <div className="space-y-3">
+        <div className="flex items-center space-x-2.5">
+          <Checkbox 
+            id="available-only"
+            checked={showAvailableOnly}
+            onCheckedChange={(checked) => handleAvailableOnlyChange(!!checked)}
+          />
+          <Label htmlFor="available-only" className="text-sm font-semibold text-slate-700 cursor-pointer">Show Available Only</Label>
+        </div>
+      </div>
+
+      {/* AC / Non-AC */}
+      <div className="space-y-3">
+        <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">AC / Non-AC</Label>
+        <div className="space-y-2">
+          {[
+            { label: 'AC', val: 'ac' },
+            { label: 'Non-AC', val: 'non-ac' },
+          ].map((item) => (
+            <div key={item.val} className="flex items-center space-x-2.5">
+              <Checkbox 
+                id={`ac-${item.val}`}
+                checked={selectedAcTypes.includes(item.val)}
+                onCheckedChange={(checked) => handleAcTypeChange(item.val, !!checked)}
+              />
+              <Label htmlFor={`ac-${item.val}`} className="text-sm font-semibold text-slate-700 cursor-pointer">{item.label}</Label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Sleeper / Seater */}
+      <div className="space-y-3">
+        <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Seat Type</Label>
+        <div className="space-y-2">
+          {[
+            { label: 'Sleeper', val: 'sleeper' },
+            { label: 'Seater', val: 'seater' },
+          ].map((item) => (
+            <div key={item.val} className="flex items-center space-x-2.5">
+              <Checkbox 
+                id={`seat-${item.val}`}
+                checked={selectedSeatTypes.includes(item.val)}
+                onCheckedChange={(checked) => handleSeatTypeChange(item.val, !!checked)}
+              />
+              <Label htmlFor={`seat-${item.val}`} className="text-sm font-semibold text-slate-700 cursor-pointer">{item.label}</Label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Comfort Class */}
+      <div className="space-y-3">
+        <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Comfort Class</Label>
+        <div className="space-y-2">
+          {['Standard', 'Luxury', 'Super Luxury'].map((type) => (
+            <div key={type} className="flex items-center space-x-2.5">
+              <Checkbox 
+                id={`type-${type}`}
+                checked={selectedTypes.includes(type)}
+                onCheckedChange={(checked) => handleTypeChange(type, !!checked)}
+              />
+              <Label htmlFor={`type-${type}`} className="text-sm font-semibold text-slate-700 cursor-pointer">{type}</Label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Departure Time */}
+      <div className="space-y-3">
+        <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Departure Time</Label>
+        <div className="space-y-2">
+          {[
+            { label: 'Morning (06 AM - 12 PM)', val: 'Morning' },
+            { label: 'Afternoon (12 PM - 05 PM)', val: 'Afternoon' },
+            { label: 'Evening (05 PM - 12 AM)', val: 'Evening' },
+          ].map((slot) => (
+            <div key={slot.val} className="flex items-center space-x-2.5">
+              <Checkbox 
+                id={`time-${slot.val}`}
+                checked={selectedTimes.includes(slot.val)}
+                onCheckedChange={(checked) => handleTimeChange(slot.val, !!checked)}
+              />
+              <Label htmlFor={`time-${slot.val}`} className="text-sm font-semibold text-slate-700 cursor-pointer">{slot.label}</Label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Operators */}
+      {uniqueOperators.length > 0 && (
+        <div className="space-y-3">
+          <Label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Operator</Label>
+          <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+            {uniqueOperators.map((op) => (
+              <div key={op} className="flex items-center space-x-2.5">
+                <Checkbox 
+                  id={`operator-${op}`}
+                  checked={selectedOperators.includes(op)}
+                  onCheckedChange={(checked) => handleOperatorChange(op, !!checked)}
+                />
+                <Label htmlFor={`operator-${op}`} className="text-sm font-semibold text-slate-700 cursor-pointer">{op}</Label>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 
   useEffect(() => {
     const observerOptions = {
@@ -553,6 +898,212 @@ export default function LandingPage() {
       </div>
       </section>
       {/* END: HeroSection */}
+
+      {/* Search Results Section */}
+      {hasSearched && (
+        <section id="search-results" className="bg-slate-50 border-t border-b border-slate-200 py-12 px-6 relative z-30">
+          <div className="max-w-7xl mx-auto space-y-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-2xl font-bold text-[#0F1E36] tracking-tight">Available Buses</h2>
+                <p className="text-sm text-slate-500 font-medium">
+                  {fromParam} to {toParam} &bull; {dateParam} &bull; {passengersParam} {passengersParam === 1 ? 'Passenger' : 'Passengers'}
+                </p>
+              </div>
+
+              {/* Mobile filter button */}
+              <div className="md:hidden">
+                <Button 
+                  onClick={() => setShowMobileFilters(true)}
+                  variant="outline"
+                  className="w-full flex items-center justify-center gap-2 border-slate-200 hover:bg-slate-100 text-sm font-semibold h-11 rounded-xl shadow-sm text-slate-700 bg-white"
+                >
+                  <SlidersHorizontal className="h-4.5 w-4.5 text-slate-500" />
+                  Filter Results
+                  {(selectedTypes.length + selectedTimes.length + selectedOperators.length + selectedAcTypes.length + selectedSeatTypes.length + (showAvailableOnly ? 1 : 0) + (maxPrice !== 2500 ? 1 : 0)) > 0 && (
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-650 text-[10px] font-bold text-white">
+                      {selectedTypes.length + selectedTimes.length + selectedOperators.length + selectedAcTypes.length + selectedSeatTypes.length + (showAvailableOnly ? 1 : 0) + (maxPrice !== 2500 ? 1 : 0)}
+                    </span>
+                  )}
+                </Button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+              {/* Desktop Filters Sidebar */}
+              <div className="hidden md:block lg:col-span-1 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6">
+                {renderFilters()}
+              </div>
+
+              {/* Results Lists */}
+              <div className="lg:col-span-3 space-y-4">
+                {isLoading ? (
+                  // Skeletons
+                  Array.from({ length: 3 }).map((_, i) => (
+                    <Card key={i} className="p-6 border-slate-100/80 shadow-sm space-y-4 bg-white">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div className="space-y-2">
+                          <Skeleton className="h-6 w-48 bg-slate-100" />
+                          <Skeleton className="h-4 w-32 bg-slate-100" />
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <Skeleton className="h-8 w-24 bg-slate-100" />
+                          <Skeleton className="h-10 w-28 bg-slate-100" />
+                        </div>
+                      </div>
+                      <div className="border-t border-slate-100/80 pt-4 flex gap-6">
+                        <Skeleton className="h-4 w-20 bg-slate-100" />
+                        <Skeleton className="h-4 w-20 bg-slate-100" />
+                        <Skeleton className="h-4 w-20 bg-slate-100" />
+                      </div>
+                    </Card>
+                  ))
+                ) : error ? (
+                  <Card className="p-8 border-red-100 bg-red-50/50 flex flex-col items-center text-center space-y-3">
+                    <div className="p-3 bg-red-100 rounded-full text-red-650">
+                      <AlertCircle className="h-6 w-6" />
+                    </div>
+                    <h3 className="font-bold text-red-800">Error Fetching Schedules</h3>
+                    <p className="text-sm text-red-600 max-w-md">
+                      We ran into an issue retrieving the travel schedules. Please try searching again.
+                    </p>
+                    <Button onClick={() => refetch()} variant="outline" className="border-red-200 text-red-700 hover:bg-red-50">
+                      Retry Search
+                    </Button>
+                  </Card>
+                ) : getFilteredSchedules.length === 0 ? (
+                  <Card className="p-12 border-slate-150 flex flex-col items-center text-center space-y-4 shadow-sm bg-white">
+                    <div className="p-4 bg-indigo-50 rounded-full text-indigo-650">
+                      <Compass className="h-8 w-8 animate-pulse" />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-800">No Journeys Found</h3>
+                    <p className="text-sm text-slate-500 max-w-md">
+                      No bus schedules match your search filters or routes. Try clearing filters or selecting another date.
+                    </p>
+                    {(selectedTypes.length + selectedTimes.length + selectedOperators.length + selectedAcTypes.length + selectedSeatTypes.length + (showAvailableOnly ? 1 : 0) + (maxPrice !== 2500 ? 1 : 0)) > 0 && (
+                      <Button onClick={handleResetFilters} variant="outline" className="border-indigo-200 text-indigo-650 hover:bg-indigo-50 font-bold">
+                        Clear All Filters
+                      </Button>
+                    )}
+                  </Card>
+                ) : (
+                  getFilteredSchedules.map((schedule) => {
+                    const avail = schedule.availableSeats ?? (schedule.bus ? schedule.bus.capacity - schedule.bookedSeats.length : 0);
+                    return (
+                      <Card 
+                        key={schedule.id} 
+                        className="p-6 border-slate-100 hover:border-indigo-200 hover:shadow-md transition-all duration-200 bg-white"
+                      >
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                          <div className="space-y-3 flex-1">
+                            <div className="flex items-center gap-2.5 flex-wrap">
+                              <span className="text-xs font-bold px-2.5 py-1 bg-indigo-50 text-indigo-650 rounded-full uppercase tracking-wider">
+                                {schedule.bus?.busType}
+                              </span>
+                              <span className="text-xs font-bold px-2.5 py-1 bg-slate-100 text-slate-650 rounded-full uppercase tracking-wider">
+                                {schedule.bus?.isAc ? 'AC' : 'Non-AC'}
+                              </span>
+                              <span className="text-xs font-bold px-2.5 py-1 bg-slate-100 text-slate-650 rounded-full uppercase tracking-wider">
+                                {schedule.bus?.isSleeper ? 'Sleeper' : 'Seater'}
+                              </span>
+                              {schedule.bus?.rating && (
+                                <span className="text-xs font-bold px-2.5 py-1 bg-amber-50 text-amber-700 rounded-full flex items-center gap-1">
+                                  ★ {schedule.bus.rating}
+                                </span>
+                              )}
+                            </div>
+
+                            <div>
+                              <h4 className="font-bold text-slate-900 text-lg">
+                                {schedule.bus?.operator || 'Unknown Operator'}
+                              </h4>
+                              <p className="text-xs text-slate-450 font-medium">{schedule.bus?.name}</p>
+                            </div>
+
+                            <div className="flex items-center gap-4 text-sm text-slate-600 font-semibold">
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-slate-800 font-bold">{schedule.departureTime}</span>
+                                <span className="text-xs text-slate-450 font-medium">({fromParam})</span>
+                              </div>
+                              <div className="h-1.5 w-12 bg-slate-200 rounded-full relative">
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-indigo-500 rounded-full border border-white" />
+                              </div>
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-slate-800 font-bold">{schedule.arrivalTime}</span>
+                                <span className="text-xs text-slate-450 font-medium">({toParam})</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4 pt-4 md:pt-0 border-t md:border-t-0 border-slate-100">
+                            <div className="text-left md:text-right">
+                              <span className="text-2xl font-black text-slate-950">
+                                LKR {schedule.seatPriceLkr}
+                              </span>
+                              <p className="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider mt-0.5">Per Passenger</p>
+                            </div>
+
+                            <Button 
+                              onClick={() => handleSelectSeats(schedule.id)}
+                              className="bg-indigo-650 hover:bg-indigo-700 text-white font-bold h-11 px-6 rounded-xl flex items-center justify-center gap-2 cursor-pointer shadow-sm shadow-indigo-100 border-0 text-sm"
+                            >
+                              Select Seats
+                            </Button>
+                          </div>
+                        </div>
+
+                        <div className="border-t border-slate-50 mt-5 pt-4 flex flex-wrap gap-x-6 gap-y-2 text-xs text-slate-450 font-semibold">
+                          <span className="flex items-center gap-1.5 text-slate-500">
+                            <svg className="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
+                            </svg>
+                            {avail} Seats Left
+                          </span>
+                          {schedule.bus?.amenities && schedule.bus.amenities.map(a => (
+                            <span key={a} className="flex items-center gap-1.5">
+                              &bull; {a}
+                            </span>
+                          ))}
+                        </div>
+                      </Card>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Mobile Filters Drawer */}
+      <Dialog open={showMobileFilters} onOpenChange={setShowMobileFilters}>
+        <DialogContent className="max-w-[calc(100%-2rem)] max-h-[85vh] overflow-y-auto rounded-3xl p-6 border-0 shadow-2xl bg-white">
+          <DialogHeader className="border-b border-slate-100 pb-3">
+            <DialogTitle className="text-lg font-bold text-slate-900">Filter Results</DialogTitle>
+            <DialogDescription className="text-xs text-slate-450">
+              Apply filters to narrow down the bus list.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            {renderFilters()}
+          </div>
+          <div className="flex gap-3 border-t border-slate-100 pt-4 mt-2">
+            <Button 
+              onClick={handleResetFilters} 
+              variant="outline" 
+              className="flex-1 border-slate-200 text-slate-650 h-11 rounded-xl font-bold cursor-pointer bg-white"
+            >
+              Reset
+            </Button>
+            <Button 
+              onClick={() => setShowMobileFilters(false)}
+              className="flex-1 bg-indigo-650 hover:bg-indigo-700 text-white h-11 rounded-xl font-bold cursor-pointer border-0 text-sm"
+            >
+              Apply
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Features Grid Section with Parallax Background */}
       <section 

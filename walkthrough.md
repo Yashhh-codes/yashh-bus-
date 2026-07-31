@@ -90,3 +90,13 @@ We have successfully optimized the landing page hero section, the floating searc
 - Bottom highlights:
   - Set to a single horizontally scrollable row (`flex-nowrap overflow-x-auto`) with hidden scrollbars.
   - Font size: `text-[11px]`. No wrapping.
+
+---
+
+## Inline Search Results on Landing Page (Homepage)
+
+We have successfully integrated the search results directly into the landing page (`/`) below the Hero Section:
+1. **URL Query Param Binding**: Landing page search form loads defaults from the URL search query parameters (`from`, `to`, `date`, `passengers`) and synchronizes dynamically when URL params change.
+2. **Advanced Filtering Integration**: Integrates all schedule filters (Price range, comfort class, departure time, AC/Non-AC, Seater/Sleeper, operators list, and seat availability) directly on `/` and binds their values to query parameters to support bookmarkable filters.
+3. **Guest Session Interceptor**: Retains the unauthenticated visitor flow, checking permissions and routing to `/login?redirectTo=...` upon selecting seats to authorize the user and resume booking without manual reentry.
+4. **Clean Results UI Grid**: Automatically loads loading skeletons, retry error displays, empty schedules indicators, and a responsive mobile filter drawer when a search query is active on the homepage.
